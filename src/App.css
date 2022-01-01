@@ -1,0 +1,779 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.img-capi{
+  margin-right: 50px;
+  border: 3px solid #88888852;
+}
+.img-capi-selected{
+  margin-right: 50px;
+  border: 3px solid #008060;
+}
+
+.table-pixel td,.table-pixel th{
+  vertical-align: middle;
+}
+
+#btn-hidden{
+  display: none;
+}
+
+.Polaris-MediaCard {
+  flex-flow: column nowrap;
+}
+
+.orichi-main .plan p {
+  font-size: 12px;
+  line-height: 23px;
+  letter-spacing: 0.5px;
+}
+
+.orichi-main p {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.orichi-main .document p, .orichi-main .document h1, .orichi-main .document h2 {
+  line-height: 25pt;
+}
+
+.orichi-main .document {
+  width: 60%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.orichi-main .select-plan{
+  display: inline-flex;
+}
+
+.orichi-main .choose-plan{
+  margin-top: 20px;
+}
+
+.choose-plan .pricing-plan-maximum{
+  border: 3px solid #fc973b;
+  position: relative;
+}
+
+.choose-plan .pricing-plan-maximum .Polaris-Button{
+  border: none;
+}
+
+.choose-plan .pricing-plan-maximum .pricing-price-tooltip{
+    padding: 0px 20px;
+    background-color: rgb(252, 151, 59);
+    color: white;
+    display: block;
+    position: absolute;
+    top: -34px;
+    right: -2px;
+    line-height: 32px;
+}
+
+.choose-plan .pricing-plan-maximum .Polaris-Button{
+  background: #FC973B;
+  color: white;
+}
+
+.pricing-plan {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #A0A9B050;
+  cursor: pointer;
+}
+.pricing-plan:hover{
+  border: 1px solid #fc973b;;
+}
+.pricing-plan-maximum:hover{
+  border: 3px solid #fc973b;
+}
+.pricing-price-header{
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.pricing-price-description{
+  text-align: left;
+}
+.pricing-price{
+  font-weight: bold;
+  font-size: 38px;
+}
+
+.pricing-price-list{
+  pointer-events: none;
+  margin-bottom: 20px;
+}
+.pricing-price-list .Polaris-OptionList{
+  padding: 0;
+}
+.pricing-price-list .Polaris-OptionList li.Polaris-OptionList-Option label{
+  font-size: 11px;
+  line-height: 23px;
+  background: none;
+  padding: 0;
+}
+
+.pricing-price-list .Polaris-OptionList li.Polaris-OptionList-Option label .Polaris-OptionList-Checkbox__Input:checked + .Polaris-OptionList-Checkbox__Backdrop{
+  background-color: #8CCA66;
+}
+
+.pricing-price-list .Polaris-OptionList li.Polaris-OptionList-Option label .Polaris-OptionList-Checkbox__Input:checked + .Polaris-OptionList-Checkbox__Backdrop::before{
+  background-color: #8CCA66;
+}
+
+.pricing-price-list .Polaris-OptionList li.Polaris-OptionList-Option label .Polaris-OptionList-Checkbox__Input + .Polaris-OptionList-Checkbox__Backdrop{
+  background-color: #A0A9B0;
+}
+
+.pricing-price-list .Polaris-OptionList li.Polaris-OptionList-Option label .Polaris-OptionList-Checkbox__Input + .Polaris-OptionList-Checkbox__Backdrop::before{
+  background-color: #A0A9B0;
+}
+
+
+.step-setup .Polaris-Icon--colorHighlight svg {
+  fill: #008060;
+}
+
+.step-setup .Polaris-ProgressBar__Indicator {
+  background-color: #008060;
+}
+
+.step-setup .Polaris-ProgressBar--sizeMedium {
+  height: 10px;
+}
+
+.banner-step2 .Polaris-Heading{
+  font-size: 1.6rem;
+}
+
+.step3-button .Polaris-ButtonGroup {
+  display: inline-flex;
+  margin-top: 10px;
+}
+
+.step3-button {
+  text-align: center;
+}
+
+.card-button{
+  text-align: right;
+}
+
+.card-button .Polaris-ButtonGroup{
+  display: inline-flex;
+}
+
+.orichi-review {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin: 20px 20%;
+  width: 60%;
+  text-align: center;
+}
+.orichi-review .Polaris-Banner__Ribbon .Polaris-Icon{
+  display: none;
+}
+.orichi-review h1{
+  font-size: 16px;
+}
+
+.orichi-review .orichi-review-star{
+  margin: 10px;
+}
+
+.orichi-review .MuiRating-sizeLarge{
+  font-size: 40px;
+}
+
+.orichi-review .Polaris-Banner{
+  background: white;
+}
+
+.btn-select-plan{
+  display: flow-root;
+  padding-right: 15px;
+}
+
+.btn-select-plan .Polaris-ButtonGroup{
+  float: right;
+}
+
+.btn-select-plan .Polaris-ButtonGroup #btn-select-plan-active{
+  background-color: #FC973B;
+  color: white;
+  border: none;
+}
+
+.btn-select-plan .Polaris-ButtonGroup #btn-select-plan-active:hover{
+  background-color: #c3732b;
+  color: white;
+}
+
+.risk-text{
+  color: red;
+}
+
+.popup-create-pixel-success{
+  text-align: center;
+  padding: 0px 40px;
+}
+
+.popup-create-pixel-success img{
+  width: 10%;
+  margin: 15px 0px;
+}
+
+#tidio-chat iframe{
+  inset: auto 9px 5px auto !important;
+}
+
+.no-campaign{
+  text-align: center;
+}
+.no-campaign button{
+  display: flex;
+  margin: auto;
+}
+
+.campaign-item{
+  display: flex;
+}
+.campaign-item .campaign-item-content{
+  flex: 1 0 35rem;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.campaign-item .campaign-item-content .Polaris-Heading{
+  font-size: 20px;
+}
+.campaign-item .campaign-item-content p{
+  margin-top: 5px;
+  color: #4E4E4E;
+}
+.campaign-item .campaign-item-content .Polaris-Badge{
+  margin-top: 5px;
+}
+.campaign-item .campaign-item-control{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.campaign-form .campaign-info .campaign-control{
+  display: flex;
+}
+.campaign-form .campaign-info .campaign-detail{
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.campaign-form .campaign-info .campaign-detail>div{
+  margin-top: 30px;
+}
+.campaign-time .campaign-time-input{
+  display: flex;
+}
+.campaign-time .campaign-time-input>span{
+  width: 10%;
+  line-height: 35px;
+  text-align: center;
+}
+.campaign-time .campaign-time-input>div{
+  width: 47.5%;
+}
+.campaign-products .campaign-products-blank{
+  height: 300px;
+  text-align: center;
+  padding: 100px;
+}
+.campaign-products .campaign-products-blank  h2{
+  margin-top: 30px;
+}
+.campaign-product-list-control{
+  display: flex;
+  justify-content: space-between;
+}
+.campaign-product-list-control .campaign-product-list-control-input{
+  width: 50%;
+}
+.campaign-product-list-content .Polaris-IndexTable__TableCell--first + .Polaris-IndexTable__TableCell, .campaign-product-list-content .Polaris-IndexTable__TableCell--first  {
+  position: -webkit-sticky;
+  position: static !important;
+  z-index: 30;
+  padding: 0;
+}
+
+/* ninhnh */
+.cb{
+  clear: both;
+}
+.colLeft {
+  float: left;
+}
+
+.colRight {
+  float: right;
+}
+
+.w32pt {
+  width: 32%;
+}
+.w66pt{
+  width: 66%;
+}
+.w50pt{
+  width: 50%;
+}
+.mt-10{
+  margin-top: 10px;
+}
+.mt-20{
+  margin-top: 20px;
+}
+.mt-40{
+  margin-top: 40px;
+}
+.mb-20{
+  margin-bottom: 20px;
+}
+.ml-5{
+  margin-left: 5px;
+}
+.ml-10{
+  margin-left: 10px;
+}
+.ptb8{
+  padding: 8px 0;
+}
+.wImage { overflow: hidden; position: relative; }
+.wImage:before { content: ""; display: block; padding-bottom: 66.66% }
+.wImage .image { height: 100%; left: 0; position: absolute; top: 0; width: 100% }
+.wImage .image.cover img { height: 100%; object-fit: cover; width: 100%; }
+.wImage .image img { -moz-transform: translateY(-50%) translateX(-50%); -moz-transition: 0.5s all ease-in-out; display: block; left: 50%; margin: auto; max-height: 100%; max-width: 100%; position: absolute; top: 50%; transform: translateY(-50%) translateX(-50%); transition: 0.5s all ease-in-out; vertical-align: middle; } 
+.design .layout-type{
+  margin-top: 30px;
+  margin-bottom: 25px;
+}
+.design .show-product{
+  margin-bottom: 45px;
+}
+.design .show-product .btn-preview .title-preview{
+  display: block;
+  width: 100px;
+  padding: 5px 0;
+  font-weight: 700;
+  text-align: center;
+  background-color: #C4C4C4;
+}
+.design .show-product .logo-section{
+  margin-bottom: 10px;
+}
+.design .show-product .logo-section .Polaris-Card,
+.design .show-product .list-view .Polaris-Card{
+  border-radius: 0 !important;
+}
+.design .show-product .logo-section .logo{
+  display: inline-block;
+  width: 20%;
+}
+.design .show-product .logo-section .logo .wImage::before{
+  padding-bottom: 100%;
+}
+.design .show-product .logo-section .logo .wImage .image{
+  width: 100%;
+}
+.design .show-product .logo-section .logo,
+.design .show-product .logo-section .orichi-countdown{
+  float: left;
+}
+.orichi-countdown
+{
+	display: inline-block;
+}
+
+.orichi-countdown ul {
+  padding-left: 15px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.orichi-countdown ul li span {
+	padding: 1px 3px;
+	font-size: 13px;
+	background: black;
+	color: white;
+	text-align: center;
+	font-weight: 700;
+	border-radius: 3px;
+}
+
+.orichi-countdown ul li {
+	display: inline-block;
+	padding-right: 5px;
+}
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+.design .common-title{
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #000;
+  padding-top: 40px;
+}
+
+.design .section{
+  margin-bottom: 45px;
+}
+/* .design .section-timer-countdown .timer-color,
+.design .section-product-setting .show-process-bar,
+.design .section-product-setting .color{
+  margin-bottom: 20px;
+} */
+
+.design .section-timer-countdown .Polaris-Card__Section,
+.design .section-text-setting .Polaris-Card .Polaris-Card__Section,
+.design .section-product-setting .Polaris-Card .Polaris-Card__Section
+{
+  border-top: none;
+}
+.design .section-timer-countdown .Polaris-Card .Polaris-Card__Section,
+.design .section-text-setting .Polaris-Card .Polaris-Card__Section,
+.design .section-product-setting .Polaris-Card .Polaris-Card__Section
+{
+  padding-bottom: 0;
+}
+
+
+.design .section-timer-countdown .Polaris-Card .Polaris-Card__Section:last-child,
+.design .section-text-setting .Polaris-Card .Polaris-Card__Section:last-child,
+.design .section-product-setting .Polaris-Card .Polaris-Card__Section:last-child
+{
+  padding-bottom: 2rem;
+}
+.design .section-product-setting .subTitle{
+  font-size: 12px;
+  font-style: italic;
+  /* margin-top: 10px; */
+}
+
+.design .section-product-setting .flashsale-image .logo{
+  display: inline-block;
+  width: 40%;
+}
+.design .section-product-setting .flashsale-image .logo .wImage::before{
+  padding-bottom: 100%;
+}
+.design .section-product-setting .flashsale-image .logo .wImage .image{
+  width: 100%;
+}
+
+.design .section-product-setting .flashsale-image .icon{
+  display: inline-block;
+  width: 20%;
+}
+.design .section-product-setting .flashsale-image .icon .wImage::before{
+  padding-bottom: 100%;
+}
+.design .section-product-setting .flashsale-image .icon .wImage .image{
+  width: 100%;
+}
+.design .section-product-setting .flashsale-image .icon .wImage .image.cover img{
+  width: 100%;
+  height: 100%;
+}
+.design .section-product-setting .flashsale-image .right{
+  position: relative;
+}
+.input-file-container {
+ /* width: 120px; */
+ display: inline-block;
+ position: absolute;
+ top: 0;
+ right: 0
+} 
+.input-file-trigger {
+  display: block;
+  padding: 6px 9px;
+  background: #EE4D2D;
+  color: #fff;
+  font-size: 1em;
+  transition: all .4s;
+  cursor: pointer !important;
+}
+.input-file {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+/* .input-file:hover + .input-file-trigger,
+.input-file:focus + .input-file-trigger,
+.input-file-trigger:hover,
+.input-file-trigger:focus {
+ background: #34495E;
+  color: #39D2B4; 
+  cursor: pointer;
+} */
+
+/*Grid  */
+
+.orichi-product-item {
+	float: left;
+	width: calc((100% - (12px*4)) / 4);
+	/* width: calc(100%  / 4); */
+
+	padding: 10px 6px;
+  margin-right: 12px;
+	margin-bottom: 10px;
+}
+
+.orichi-product-item:hover {
+	box-shadow: 1px 1px 6px 3px #b3b3b321;
+}
+
+.orichi-product-list .wImage {
+	margin-bottom: 8px;
+}
+
+.orichi-product-list .wImage:before {
+	padding-bottom: 100%
+}
+
+.orichi-flash-sale-progress-bar__fire {
+	position: absolute;
+	left: 3px;
+	top: -6px;
+}
+
+.orichi-flash-sale-progress-bar__fire img {
+	width: 18px;
+}
+
+.orichi-flash-sale-progress-bar {
+	height: 16px;
+	background: #ffbda6;
+	position: relative;
+	border-radius: 4px;
+}
+
+.orichi-flash-sale-progress-bar__text {
+  font-size: 10px;
+  color: #fff;
+  font-weight: bold;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  top: -2px;
+  left: 0;
+}
+
+.orichi-flash-sale-progress-bar__complement-wrapper {
+	width: 50%;
+	background: #EE4D2D;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	height: 16px;
+	border-radius: 4px;
+}
+
+.orichi-price-wrapper {
+	display: flex;
+}
+
+.orichi-price-wrapper .orichi-price {
+	font-size: 16px;
+	font-weight: bold;
+	color: #ee4d2d;
+	margin-top: 12px;
+}
+
+.orichi-discount-price {
+	position: absolute;
+	background: #F3E9E7;
+	top: -65%;
+	right: -40%;
+	font-size: 8px;
+	color: #ee4d2d;
+	font-weight: bold;
+	padding: 2px;
+	border: 1px solid #ee4d2d;
+}
+
+.orichi-price-wrapper .orichi-price {
+	position: relative;
+}
+
+.orichi-progress-bar {
+	margin-top: 10px;
+	display: block;
+}
+
+.orichi-price-old {
+	color: rgba(0, 0, 0, .13);
+	padding-top: 11x;
+	vertical-align: bottom;
+	display: table-column;
+	margin-top: 5px;
+	margin-right: 5px;
+	text-decoration: line-through;
+}
+.orichi-product-list {
+	position: relative;
+}
+
+.orichi-slider .orichi-slider-view .orichi-product-item-slider {
+	padding: 15px;
+
+}
+.orichi-slider .orichi-slider-view .orichi-product-item-slider:hover {
+	box-shadow: 1px 1px 6px 3px #b3b3b321;
+
+}
+.orichi-product-list .slick-prev{
+  z-index: 10;
+  opacity: 1;
+  left: -10px;
+}
+.orichi-product-list .slick-next{
+  z-index: 10;
+  opacity: 1;
+  right: -10px;
+}
+.orichi-product-list .slick-prev:before,
+.orichi-product-list .slick-next:before{
+	color: #ee4d2d;
+}
+/* .orichi-product-list .slick-prev:hover:before, .orichi-product-list .slick-prev:focus:before, .slick-next:hover:before, .slick-next:focus:before{
+  opacity: 1;
+}
+.orichi-product-list .slick-prev:before,.orichi-product-list .slick-next:before{
+  opacity: 1;
+} */
+/* .orichi-product-list .orichi-slick-next {
+	
+} */
+.orichi-view-more {
+	text-align: center;
+}
+
+.orichi-btn-view-more {
+	font-size: 12px;
+	text-decoration: none;
+	display: inline-block;
+	padding: 6px 10px;
+	color: #fff;
+	background: #EE4D2D;
+}
+
+.orichi-spin-loading .stage {
+	padding: 2.2rem 0;
+}
+.orichi-cb{
+  clear: both;
+}
+.orichi-view-more .Polaris-Button{
+  border: none;
+  background-color: #EE4D2D;
+  color: #fff;
+}
+
+/* setting */
+.use-section{
+  cursor: pointer;
+}
+.use-section .title{
+  font-weight: bold;
+}
+
+.bound-section{
+  border-top: 1px solid #E5E5E5;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.list-section .Polaris-Page{
+padding: 0;
+}
+.list-section .Polaris-Page table{
+  border-color:none;
+}
+
+.list-section .Polaris-Page table .Polaris-DataTable__Cell--header{
+  border-bottom: 1px solid #F1F1F1 !important;
+  font-weight: bold;
+}
+
+.remove-code button{
+  color:red;
+  text-decoration: none;
+}
+.remove-code:hover button{
+  color:red;
+}
+
+.list-section .Polaris-Page table .Polaris-DataTable__Cell{
+  padding: 2.6rem;
+}
+.dib{
+  display: inline-block;
+}
+.page-title .url-blue .Polaris-TextField__Input{
+  color: #00AAFF;
+}
+.page-title .copy-board svg{
+ font-size: 20px;
+ color:#ADADAD;
+}
+
+
