@@ -15,9 +15,9 @@ const UploadyCustom = (props) => {
         console.log(`item ${item.id} finished uploading, response was: `, item.uploadResponse, item.uploadStatus);
         if (item.uploadResponse.data.IsSuccess) {
             if (props.type === 'image') {
-                props.handleSetUrlLogo(config.rootLink + item.uploadResponse.data.source);
+                props.handleSetUrlLogo(item.uploadResponse.data.source);
             } else if (props.type === 'icon') {
-                props.handleSetUrlIcon(config.rootLink + item.uploadResponse.data.source);
+                props.handleSetUrlIcon(item.uploadResponse.data.source);
             }
         }
     });

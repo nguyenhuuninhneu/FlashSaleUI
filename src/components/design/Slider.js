@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderSlick from "react-slick";
+import config from '../../config/config';
 
 function Slider(props) {
     var listProduct = [
@@ -118,7 +119,7 @@ function Slider(props) {
                             <div className="orichi-flash-sale-progress-bar__text">Sold 159</div>
 
                             <div className="orichi-flash-sale-progress-bar__fire">
-                                <img src={props.ProductIcon} />
+                                <img src={config.rootLink +props.ProductIcon} />
                             </div>
                         </div>
                     </div> : ''

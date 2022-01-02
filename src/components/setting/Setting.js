@@ -1,43 +1,91 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSetting } from '../../state/modules/setting/actions';
-import { Card, Select, Heading, DataTable, Page, TextField, Button, TextStyle, Modal, Toast, TextContainer, Collapsible, Link } from '@shopify/polaris';
+import { setSetting, setListSectionTheme } from '../../state/modules/setting/actions';
+import { Card, Select, Heading, DataTable, Page, TextField, Button, TextStyle, Modal, Toast, TextContainer, Collapsible, Link, ContextualSaveBar } from '@shopify/polaris';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faChevronDown, faClone } from '@fortawesome/free-solid-svg-icons'
-// import { useDispatch, useSelector } from 'react-redux';
-import config from '../../config/config';
+import { saveSetting } from '../../state/modules/setting/operations';
+import moreAppConfig from '../../config/moreAppConfig';
+import timezonesconfig from '../../config/timezone';
 
 
 
 function Setting() {
     debugger
     const dispatch = useDispatch();
-    const settingState = useSelector((state) => state.setting);
-    const setting = settingState.Setting;
+    const settingState = useSelector((state) => state.setting.SettingInfo);
+    const setting = settingState.setting;
+    function convertDate(date) {
+        var getDate = new Date();
+        if (date !== null && date.toString().includes('/Date')) {
+            var numberDate = Number(date.toString().replace('/Date(', '').replace(')/', ''));
+            getDate = new Date(numberDate);
+        } else {
+            getDate = new Date(date);
+        }
+
+        var day = 1;
+        var month = 1;
+        day = getDate.getDate();
+        month = getDate.getMonth() + 1;
+        var hours = getDate.getHours();
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+        var minutes = getDate.getMinutes();
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        var strDate = month + '/' + day + '/' + getDate.getFullYear() + ', ' + hours + ':' + minutes;
+        return strDate;
+    }
+    if (setting != null && setting.PageCreatedDate !== null && setting.PageCreatedDateStr !== null) {
+        setting.PageCreatedDateStr = convertDate(setting.PageCreatedDate);
+    }
 
     useEffect(() => {
         dispatch(setSetting({
-            ...setting,
-            Active: true,
-            IsMonthly: null,
-            ListCreateSectionInTheme: null,
-            PageCreatedDate: null,
-            PageTitle: null,
-            PageUrl: null,
-            PlanNumber: 2,
-            TimeZone: null,
+            ...settingState,
+            IsOpenSaveToolbar: false,
+            IsSaveLoading: false,
+            IsOpenSaveResult: false,
+            MessageSaveResult: null,
+            TitleValidationTheme: null,
+            TitleValidationPageTitle: null,
+            setting: {
+                ...setting,
+                PageCreatedDateStr: '',
+            }
         }))
     }, []);
-    const [selectedTimeZone, setSelectedTimeZone] = useState('');
-    const handleSetSelectedTimeZone = useCallback((value) => setSelectedTimeZone(value), []);
-    const options = [
-        { label: 'Select your timezone', value: '' },
-        { label: 'Yesterday', value: 'yesterday' },
-        { label: 'Last 7 days', value: 'lastWeek' },
-    ];
+    const [timezones, setSelectedTimeZones] = useState(timezonesconfig);
+    let tz1 = timezonesconfig.find(p => p.value == 'Default timezone');
+    let tz = setting.TimeZone !== null || setting.TimeZone !== undefined ? timezonesconfig.find(p => p.time == setting.TimeZone) : tz1;
+    const [selectedTimeZone, setSelectedTimeZone] = useState(setting.TimeZone === null ? 'Default timezone' : tz.value);
+    const handleSetSelectedTimeZone = useCallback((value) => {
+        setSelectedTimeZone(value)
+        dispatch(setSetting({
+            ...settingState,
+            IsOpenSaveToolbar: true
+        }))
+    }, []);
 
     const [selectedSection, setSelectedSection] = useState('');
-    const handleSetSelectedSection = useCallback((value) => setSelectedSection(value), []);
+    const handleSetSelectedSection = useCallback((value) => {
+        setSelectedSection(value);
+        if (value !== null && value !== undefined && value !== '') {
+            dispatch(setSetting({
+                ...settingState,
+                TitleValidationTheme: ''
+            }))
+        } else {
+            dispatch(setSetting({
+                ...settingState,
+                TitleValidationTheme: moreAppConfig.SettingValidationSelectTheme
+            }))
+        }
+
+    }, []);
     const optionsSection = [
         { label: 'Select your section', value: '' },
         { label: 'Debut 1', value: 'debut1' },
@@ -48,6 +96,7 @@ function Setting() {
     const [openTwo, setOpenTWo] = useState(false);
     const [openThree, setOpenThree] = useState(false);
 
+
     const handleToggleOne = useCallback(() => {
         setOpenOne((openOne) => !openOne);
     }, []);
@@ -57,45 +106,146 @@ function Setting() {
     const handleToggleThree = useCallback(() => {
         setOpenThree((openThree) => !openThree);
     }, []);
-    const removeTheme = (index) => {
-        const exsit = listTheme.indexOf(index);
-        if (index > -1) {
-            listTheme.splice(index, 1);
+    //add theme
+    const [rows, setRowForTableTheme] = useState([]);
+    // if (setting.ListCreateSectionInTheme !== null && setting.ListCreateSectionInTheme != undefined) {
+    //     var parseListSection = JSON.parse(setting.ListCreateSectionInTheme);
+    //     var arrSection = [];
+    //     if (parseListSection != null) {
+    //         parseListSection.forEach((item, index) => {
+    //             var newItem = [item[0], convertDate(item[1]), item[1], <><div className='remove-code'>
+    //                 <Link onClick={() => { removeTheme(item) }}> Remove Code</Link>
+    //             </div></>];
+    //             arrSection.push(newItem);
+    //         })
+    //     }
+    //     setRowForTableTheme(oldArray => [...oldArray, arrSection]);
+    // }
+    const AddTheme = (newItem) => {
+        if (newItem !== null && newItem !== undefined && newItem[0] !== '') {
+            const existRow = ChekExistTheme(newItem[0]);
+            if (!existRow) {
+                dispatch(setSetting({
+                    ...settingState,
+                    IsOpenSaveToolbar: true
+                }))
+                setRowForTableTheme(oldArray => [...oldArray, newItem]);
+            } else {
+                dispatch(setSetting({
+                    ...settingState,
+                    TitleValidationTheme: moreAppConfig.SettingValidationExistTheme
+                }))
+            }
+        } else {
+            dispatch(setSetting({
+                ...settingState,
+                TitleValidationTheme: moreAppConfig.SettingValidationSelectTheme
+            }))
         }
+
     }
-    const [valuePageTitle, setValuePageTitle] = useState('');
+    const ChekExistTheme = (name) => {
+        var exist = false;
+        if (rows.length > 0) {
+            for (let index = 0; index < rows.length; index++) {
+                const element = rows[index];
+                if (element[0] === name) {
+                    exist = true;
+                    break;
+                }
+            }
+        }
+        return exist;
+    }
+    const removeTheme = (item) => {
+        const newRows = rows.filter((theme) => theme !== item);
+        setRowForTableTheme(newRows);
+        dispatch(setSetting({
+            ...settingState,
+            IsOpenSaveToolbar: true
+        }))
+    }
 
-    const handlePageTitle = useCallback((newValue) => setValuePageTitle(newValue), []);
-
-    const rows = [];
-    var listTheme = JSON.parse(setting.ListCreateSectionInTheme);
-    listTheme.forEach((item, index) => {
-        var newItem = [item.Theme, item.CreatedAt, <><div className='remove-code'>
-            <Link onClick={() => { removeTheme(index) }}> Remove Code</Link>
-        </div></>];
-        rows.push(newItem);
-    });
     return (
         <>
+            {settingState.IsOpenSaveToolbar ? <ContextualSaveBar
+                message="Unsaved changes"
+                saveAction={{
+                    content: "Save",
+                    onAction: () => {
+                        if (setting.PageCreatedDate != null) {
+                            if (setting.PageCreatedDate !== null && setting.PageCreatedDate.toString().includes('/Date')) {
+                                var numberDate = Number(setting.PageCreatedDate.toString().replace('/Date(', '').replace(')/', ''));
+                                setting.PageCreatedDate = new Date(numberDate);
+                            } else {
+                                setting.PageCreatedDate = new Date(setting.PageCreatedDate);
+                            }
+                        }
+
+                        let tz = timezones.find(p => p.value === selectedTimeZone);
+                        dispatch(setSetting({
+                            ...settingState,
+                            setting: {
+                                ...setting,
+                                TimeZone: (tz == undefined || tz.value == 'Default timezone') ? null : tz.time
+                            }
+                        }))
+                        //Theme
+                        debugger;
+                        // if (rows.length > 0) {
+                        //     var listSection = [];
+                        //     rows.forEach((item, index) => {
+                        //         var newItem = [item[0], item[2]];
+                        //         listSection.push(newItem);
+                        //     });
+                        //     dispatch(setSetting({
+                        //         ...settingState,
+                        //         setting: {
+                        //             ...setting,
+                        //             ListCreateSectionInTheme: listSection.toString()
+                        //         }
+                        //     }))
+                        // }
+
+                        dispatch(saveSetting())
+                    },
+                    loading: settingState.IsSaveLoading,
+                }}
+                discardAction={{
+                    content: "Discard",
+                    onAction: () => dispatch(setSetting({
+                        ...settingState,
+                        IsOpenSaveToolbar: false
+                    })),
+                }}
+            /> : <></>}
             <div className='setting'>
                 <Card>
                     <Card.Section>
                         <div className='colLeft'>
                             <p className='ptb8'>
-                                The app is <TextStyle variation="strong">{setting.Active ? 'Disabled' : 'Enabled'}</TextStyle>
+                                The app is <TextStyle variation="strong">{setting.Active ? 'Enabled' : 'Disabled'}</TextStyle>
                             </p>
                         </div>
                         <div className='colRight'>
                             {
                                 setting.Active ? <Button onClick={() => {
                                     dispatch(setSetting({
-                                        ...setting,
-                                        Active: false
+                                        ...settingState,
+                                        setting: {
+                                            ...setting,
+                                            Active: false
+                                        },
+                                        IsOpenSaveToolbar: true
                                     }))
                                 }}>Disable App</Button> : <Button primary onClick={() => {
                                     dispatch(setSetting({
-                                        ...setting,
-                                        Active: 1
+                                        ...settingState,
+                                        setting: {
+                                            ...setting,
+                                            Active: true
+                                        },
+                                        IsOpenSaveToolbar: true
                                     }))
                                 }}>Enable App</Button>
                             }
@@ -107,14 +257,9 @@ function Setting() {
                         <div className='w66pt mt-20'>
                             <Select
                                 label="Timezone"
-                                options={options}
-                                onChange={(e) => {
-                                    dispatch(setSetting({
-                                        ...setting,
-                                        TimeZone: e
-                                    }))
-                                }}
-                                value={setting.TimeZone}
+                                options={timezones}
+                                onChange={handleSetSelectedTimeZone}
+                                value={selectedTimeZone}
                             />
                         </div>
 
@@ -154,11 +299,15 @@ function Setting() {
                                     options={optionsSection}
                                     onChange={handleSetSelectedSection}
                                     value={selectedSection}
+                                    error={settingState.TitleValidationTheme}
                                 />
                             </div>
                             <div className='colLeft ml-5'>
                                 <Button primary onClick={() => {
-                                    addToListTheme()
+                                    var newItem = [selectedSection, convertDate(Date.now()),Date.now(), <><div className='remove-code'>
+                                        <Link onClick={() => { removeTheme(newItem) }}> Remove Code</Link>
+                                    </div></>];
+                                    AddTheme(newItem);
                                 }}>Create</Button>
 
                             </div>
@@ -184,6 +333,7 @@ function Setting() {
                                         </Card>
                                     </Page>
                                 </>
+
                             </div>
                         </div>
                     </Collapsible>
@@ -211,29 +361,44 @@ function Setting() {
                         expandOnPrint
                     >
                         <div className='bound-section page-title'>
-                            <div className='w66pt'>
-                                <TextField
-                                    label="Page Title"
-                                    value={setting.PageTitle}
-                                    onChange={(e) => {
-                                        dispatch(setSetting({
-                                            ...setting,
-                                            PageTitle: e
-                                        }))
-                                    }}
-                                    autoComplete="off"
-                                    placeholder='Page Title'
-                                />
-                                <div className='mt-20'></div>
-                                <Button primary onClick={()=>{
-                                     dispatch(setSetting({
-                                        ...setting,
-                                        PageCreatedDate: Date.now()
-                                    }))
-                                }} >Create</Button>
-                            </div>
-                            <div className='mb-20'>
-                            </div>
+                            {
+                                setting.PageCreatedDate === null || setting.PageCreatedDate === undefined ?
+                                    <>
+                                        <div className='w66pt'>
+                                            <TextField
+                                                label="Page Title"
+                                                value={setting.PageTitle}
+                                                onChange={(e) => {
+                                                    dispatch(setSetting({
+                                                        ...settingState,
+                                                        setting: {
+                                                            ...setting,
+                                                            PageTitle: e
+                                                        },
+                                                    }))
+                                                }}
+                                                autoComplete="off"
+                                                placeholder='Page Title'
+                                            />
+                                            <div className='mt-20'></div>
+                                            <Button primary onClick={() => {
+                                                dispatch(setSetting({
+                                                    ...settingState,
+                                                    setting: {
+                                                        ...setting,
+                                                        PageCreatedDate: Date.now(),
+                                                        PageCreatedDateStr: convertDate(Date.now())
+                                                    },
+                                                    IsOpenSaveToolbar: true
+                                                }))
+                                            }} >Create</Button>
+                                        </div>
+                                        <div className='mb-20'>
+                                        </div>
+                                    </> : ''
+                            }
+
+
                             {
                                 setting.PageCreatedDate !== null && setting.PageCreatedDate !== undefined ?
                                     <>
@@ -245,26 +410,42 @@ function Setting() {
                                                     <TextField
                                                         value={setting.PageUrl}
                                                         onChange={(e) => {
-                                                            dispatch(setSetting({
-                                                                ...setting,
-                                                                PageUrl: e
-                                                            }))
+                                                            if (e !== '') {
+                                                                dispatch(setSetting({
+                                                                    ...settingState,
+                                                                    setting: {
+                                                                        ...setting,
+                                                                        PageUrl: e
+                                                                    },
+                                                                    IsOpenSaveToolbar: true
+                                                                }))
+                                                            } else {
+                                                                dispatch(setSetting({
+                                                                    ...settingState,
+                                                                    TitleValidationPageTitle: moreAppConfig.SettingValidationPageTitle
+                                                                }))
+                                                            }
+
                                                         }}
+                                                        error={settingState.TitleValidationPageTitle}
                                                         autoComplete="off"
                                                     />
                                                 </div>
                                                 <div className='dib ml-10 copy-board'>
-                                                    <Link onClick={() => { navigator.clipboard.writeText(setting.PageUrl) }}><FontAwesomeIcon icon={faClone} /></Link>
+                                                    <Link onClick={() => {
+                                                        navigator.clipboard.writeText(setting.PageUrl);
+                                                        <Toast content={'copied clipboard'} duration={4000} onDismiss={null} />
+                                                    }}><FontAwesomeIcon icon={faClone} /></Link>
                                                 </div>
                                             </div>
                                             <p>
-                                                Created at: {setting.PageCreatedDate}
+                                                Created at: {setting.PageCreatedDateStr}
+                                                {/* Created at: {setting.PageCreatedDate} */}
                                             </p>
 
                                         </TextContainer>
                                     </> : ''
                             }
-
                             {/* <div className='created-page-title'>
                                 <Heading>Flash Sale Page Title</Heading>
 
@@ -298,7 +479,14 @@ function Setting() {
                     </Collapsible>
                 </Card>
             </div>
-
+            {
+                settingState.IsOpenSaveResult ? <Toast content={settingState.MessageSaveResult} duration={4000} onDismiss={() => {
+                    dispatch(setSetting({
+                        ...settingState,
+                        IsOpenSaveResult: null
+                    }))
+                }} /> : null
+            }
         </>
 
     )

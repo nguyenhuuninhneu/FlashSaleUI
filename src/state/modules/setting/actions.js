@@ -7,6 +7,7 @@ export const fetchSettingLoading = () => {
 };
 
 export const fetchSettingCompleted = (data) => {
+  debugger;
   return {
     type: types.FETCH_SETTING_COMPLETED,
     payload: data,
@@ -34,7 +35,6 @@ export const setIsSaveLoading = (data) => {
     payload: data,
   };
 };
-
 
 export const saveSettingCompleted = (data) => {
   return {

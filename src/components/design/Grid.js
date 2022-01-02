@@ -1,7 +1,7 @@
 import { Button } from '@shopify/polaris';
 import React, { useState, useCallback, useEffect } from 'react';
 import '../../assets/css/dot.css'
-
+import config from '../../config/config';
 function Grid(props) {
     var listProduct = [
         {
@@ -135,7 +135,7 @@ function Grid(props) {
                                 <div className="orichi-flash-sale-progress-bar__text">Sold 159</div>
 
                                 <div className="orichi-flash-sale-progress-bar__fire">
-                                    <img src={props.ProductIcon} />
+                                    <img src={config.rootLink + props.ProductIcon} />
                                 </div>
                             </div>
                         </div> : ''

@@ -22,44 +22,11 @@ export const fetchDesign = () => {
   };
 };
 
-// export const createCampaign = () => {
-//   return (dispatch, getState) => {
-//     dispatch(actions.setCreateUpdateCampaign(
-//       {
-//         ...getState().campaign.CreateUpdateCampaign,
-//         campaign:
-//         {
-//           ID: 0,
-//           Title: '',
-//           StartTime: '',
-//           EndTime: '',
-//           TotalProduct: '',
-//           ShopID: getState().app.Shop?.ID,
-//           Status: true,
-//           ListDetails: [],
-//           StartTimeStr: '',
-//           EndTimeStr: '',
-//         }
-//       }));
-//   }
-// }
-
-// export const editCampaign = (campaign) => {
-//   return (dispatch, getState) => {
-//     dispatch(actions.setCreateUpdateCampaign(
-//       {
-//         ...getState().campaign.CreateUpdateCampaign,
-//         campaign: campaign
-//       }));
-//   }
-// }
-
 export const saveDesign = () => {
   return (dispatch, getState) => {
     dispatch(actions.setIsSaveLoading());
-
     axios.post(config.rootLink + '/FrontEnd/SaveDesign', {
-      design: getState().Design,
+      design: getState().design.DesignInfo.design,
       shop: config.shop
     })
       .then(function (response) {

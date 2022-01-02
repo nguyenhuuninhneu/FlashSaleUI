@@ -42,8 +42,8 @@ const AppFrame = () => {
   useEffect(() => {
     dispatch(appOperations.fetchShop());
     dispatch(campaignOperations.fetchList());
-    // dispatch(designOperations.fetchDesign());
-    // dispatch(settingOperations.fetchSetting());
+    dispatch(designOperations.fetchDesign());
+    dispatch(settingOperations.fetchSetting());
   }, [dispatch]);
   debugger;
   let content = <Loading></Loading>;

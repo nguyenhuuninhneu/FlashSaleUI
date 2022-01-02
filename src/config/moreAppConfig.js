@@ -4,5 +4,8 @@ const moreAppConfig = {
     StartTimeValidationText: 'Start time must be required.',
     EndTimeValidationText: 'End time must be required.',
     ProductValidationText: 'Product must be required.',
+    SettingValidationSelectTheme: 'Please select the theme.',
+    SettingValidationExistTheme: 'The theme is existed. Please choose another theme.',
+    SettingValidationPageTitle: 'Page URL is not empty.',
 }
 export default moreAppConfig;
