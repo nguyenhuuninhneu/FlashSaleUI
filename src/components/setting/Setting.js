@@ -5,6 +5,10 @@ import { Card, Select, Heading, DataTable, Page, TextField, Button, TextStyle, M
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faChevronDown, faClone } from '@fortawesome/free-solid-svg-icons'
 import { saveSetting } from '../../state/modules/setting/operations';
+import { getThemes } from '../../state/modules/setting/operations';
+import { createSection } from '../../state/modules/setting/operations';
+import { removeSection } from '../../state/modules/setting/operations';
+import { createFlashSalePage } from '../../state/modules/setting/operations';
 import moreAppConfig from '../../config/moreAppConfig';
 import timezonesconfig from '../../config/timezone';
 
@@ -52,6 +56,9 @@ function Setting() {
             MessageSaveResult: null,
             TitleValidationTheme: null,
             TitleValidationPageTitle: null,
+            ListThemes: null,
+            IsShowLoadingCreateSection: false,
+            IsShowLoadingCreateFSPage: false,
             setting: {
                 ...setting,
                 PageCreatedDateStr: '',
@@ -309,7 +316,8 @@ function Setting() {
                                     var newItem = [selectedSection, convertDate(Date.now()), Date.now(), <><div className='remove-code'>
                                         <Link onClick={() => { removeTheme(newItem) }}> Remove Code</Link>
                                     </div></>];
-                                    AddTheme(newItem);
+                                    dispatch(createFlashSalePage());
+                                    // AddTheme(newItem);
                                 }}>Create</Button>
 
                             </div>

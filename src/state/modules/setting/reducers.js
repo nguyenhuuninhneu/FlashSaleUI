@@ -8,6 +8,9 @@ const INITIAL_STATE = {
     IsOpenSaveResult: false,
     MessageSaveResult: null,
     TitleValidation: null,
+    ListThemes: null,
+    IsShowLoadingCreateSection: false,
+    IsShowLoadingCreateFSPage: false,
   }
 
 
@@ -67,6 +70,52 @@ const reducer = (state = INITIAL_STATE, action) => {
           IsSaveLoading: false,
           IsOpenSaveResult: true,
           MessageSaveResult: action.payload.IsSuccess ? 'Your Setting is saved successfully.' : action.payload.Message,
+        }
+      };
+    case types.GET_THEME:
+      debugger;
+      return {
+        ...state,
+        SettingInfo: {
+          ListThemes: action.payload
+        }
+      };
+    case types.CREATE_SECTION:
+      debugger;
+      return {
+        ...state,
+        SettingInfo: {
+          IsOpenSaveToolbar: !action.payload.isSuccess,
+          IsSaveLoading: false,
+          IsOpenSaveResult: true,
+          MessageSaveResult: action.payload.isSuccess ? 'Section is created successfully.' : action.payload.message,
+        }
+      };
+    case types.REMOVE_SECTION:
+      debugger;
+      return {
+        ...state,
+        SettingInfo: {
+          IsOpenSaveToolbar: !action.payload.isSuccess,
+          IsSaveLoading: false,
+          IsOpenSaveResult: true,
+          MessageSaveResult: action.payload.isSuccess ? 'Section is created successfully.' : action.payload.message,
+        }
+      };
+      case types.CREATE_FLASHSALE_PAGE:
+      debugger;
+      return {
+        ...state,
+        SettingInfo: {
+          setting: {
+            ...state.SettingInfo.setting,
+            PageUrl: action.payload.pageLink,
+            PageCreatedDate: action.payload.createdDate,
+          },
+          IsOpenSaveToolbar: !action.payload.isSuccess,
+          IsSaveLoading: false,
+          IsOpenSaveResult: true,
+          MessageSaveResult: action.payload.isSuccess ? 'Create flash sale page is successfully.' : action.payload.message,
         }
       };
     default:

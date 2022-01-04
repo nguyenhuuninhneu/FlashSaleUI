@@ -50,3 +50,31 @@ export const saveSettingFailed = (data) => {
     payload: data,
   };
 };
+
+export const getThemes = (data) => {
+  return {
+    type: types.GET_THEME,
+    payload: data,
+  };
+};
+
+export const createSectionCompleted = (data) => {
+  return {
+    type: types.CREATE_SECTION,
+    payload: data,
+  };
+};
+
+export const removeSectionCompleted = (data) => {
+  return {
+    type: types.REMOVE_SECTION,
+    payload: data,
+  };
+};
+
+export const createFlashSalePageCompleted = (data) => {
+  return {
+    type: types.REMOVE_SECTION,
+    payload: data,
+  };
+};
