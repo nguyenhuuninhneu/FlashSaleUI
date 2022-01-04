@@ -4,7 +4,6 @@ import * as actions from "./actions";
 
 export const fetchDesign = () => {
   return (dispatch, getState) => {
-    dispatch(actions.fetchDesignLoading());
     axios.get(config.rootLink + '/FrontEnd/GetDesign', {
       params: {
         shop: config.shop
@@ -13,6 +12,7 @@ export const fetchDesign = () => {
       .then(function (response) {
         const result = response?.data;
         dispatch(actions.fetchDesignCompleted(result));
+        
       })
       .catch(function (error) {
         const errorMsg = error.message;
@@ -43,6 +43,5 @@ export const saveDesign = () => {
 
 export default {
   fetchDesign,
-  // createCampaign,
-  // saveCampaign
+  saveDesign
 };

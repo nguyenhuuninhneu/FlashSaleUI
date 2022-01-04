@@ -29,7 +29,6 @@ const reducer = (state = INITIAL_STATE, action) => {
       };
 
     case types.FETCH_DESIGN_COMPLETED:
-      debugger;
       return {
         ...state,
         DesignInfo: action.payload
@@ -41,7 +40,6 @@ const reducer = (state = INITIAL_STATE, action) => {
         DesignInfo: action.payload
       };
     case types.SET_DESIGN:
-      debugger;
       return {
         ...state,
         DesignInfo: action.payload
@@ -58,17 +56,16 @@ const reducer = (state = INITIAL_STATE, action) => {
         IsSaveLoading: action.payload,
       };
     case types.SAVE_DESIGNCOMPLETED:
-      debugger;
       return {
         ...state,
         DesignInfo: {
-          design: action.payload.design,
+          ...state.DesignInfo,
           IsOpenSaveToolbar: !action.payload.IsSuccess,
           IsSaveLoading: false,
           IsOpenSaveResult: true,
           MessageSaveResult: action.payload.IsSuccess ? 'Your Design is saved successfully.' : action.payload.Message,
+          design: action.payload.design,
         }
-
 
       }
     default:

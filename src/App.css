@@ -779,6 +779,9 @@ padding: 0;
 .page-title .url-blue .Polaris-TextField__Input{
   color: #00AAFF;
 }
+.page-title .copy-board{
+  cursor: pointer;
+}
 .page-title .copy-board svg{
  font-size: 20px;
  color:#ADADAD;
@@ -786,3 +789,8 @@ padding: 0;
 
 .video-frame .wImage { width: 100%;}
 .video-frame .wImage:before {padding-bottom: 56.31%}
+
+.setting .Polaris-SkeletonPage__Page{
+ padding-left: 0;
+ padding-right: 0;
+}

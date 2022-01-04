@@ -6,7 +6,9 @@ const moreAppConfig = {
     ProductValidationText: 'Product must be required.',
     SettingValidationSelectTheme: 'Please select the theme.',
     SettingValidationExistTheme: 'The theme is existed. Please choose another theme.',
-    SettingValidationPageTitle: 'Page URL is not empty.',
-    DesignValidationProductNumberARow: 'The number of product in a row is not valid.'
+    SettingValidationPageTitle: 'Page Title is not empty.',
+    DesignValidationProductNumberARowNotNull: 'The number of product in a row is not valid.',
+    DesignValidationProductNumberARowGreater: 'The number of product in a row must be greater than 0.'
+    
 }
 export default moreAppConfig;

@@ -26,8 +26,8 @@ const UploadyCustom = (props) => {
     });
 
     return (
-        <div class="input-file-container">
-            <label tabindex="0" class="input-file-trigger" onClick={showFileUpload}>...</label>
+        <div className="input-file-container">
+            <label tabindex="0" className="input-file-trigger" onClick={showFileUpload}>...</label>
         </div>
     )
 }

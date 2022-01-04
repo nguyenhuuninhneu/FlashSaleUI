@@ -7,7 +7,6 @@ export const fetchSettingLoading = () => {
 };
 
 export const fetchSettingCompleted = (data) => {
-  debugger;
   return {
     type: types.FETCH_SETTING_COMPLETED,
     payload: data,
@@ -22,7 +21,6 @@ export const fetchSettingFailed = (data) => {
 };
 
 export const setSetting = (data) => {
-  debugger;
   return {
     type: types.SET_SETTING,
     payload: data,
@@ -64,7 +62,12 @@ export const createSectionCompleted = (data) => {
     payload: data,
   };
 };
-
+export const createSectionFailed = (data) => {
+  return {
+    type: types.CREATE_SECTION_FAILED,
+    payload: data,
+  };
+};
 export const removeSectionCompleted = (data) => {
   return {
     type: types.REMOVE_SECTION,
@@ -72,9 +75,22 @@ export const removeSectionCompleted = (data) => {
   };
 };
 
+export const removeSectionFailed = (data) => {
+  return {
+    type: types.REMOVE_SECTION_FAILED,
+    payload: data,
+  };
+};
 export const createFlashSalePageCompleted = (data) => {
   return {
-    type: types.REMOVE_SECTION,
+    type: types.CREATE_FLASHSALE_PAGE,
+    payload: data,
+  };
+};
+
+export const createFlashSalePageFailed = (data) => {
+  return {
+    type: types.CREATE_FLASHSALE_PAGE_FAILED,
     payload: data,
   };
 };

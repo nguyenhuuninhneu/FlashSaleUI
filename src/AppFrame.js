@@ -44,6 +44,7 @@ const AppFrame = () => {
     dispatch(campaignOperations.fetchList());
     dispatch(designOperations.fetchDesign());
     dispatch(settingOperations.fetchSetting());
+    dispatch(settingOperations.getThemes());
   }, [dispatch]);
   debugger;
   let content = <Loading></Loading>;
