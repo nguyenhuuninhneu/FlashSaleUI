@@ -10,42 +10,14 @@ import Slider from './Slider';
 import Uploady, { useUploady, useItemFinishListener, useBatchFinalizeListener, useItemStartListener } from "@rpldy/uploady";
 
 import UploadyCustom from '../plugins/UploadyCustom';
+import moreAppConfig from '../../config/moreAppConfig';
 
-
-
-const listProduct = [
-    {
-        Id: 1,
-        Image: "/assets/images/finish.png"
-    },
-    {
-        Id: 2,
-        Image: "/assets/images/finish.png"
-    },
-    {
-        Id: 3,
-        Image: "/assets/images/finish.png"
-    },
-    {
-        Id: 4,
-        Image: "/assets/images/finish.png"
-    },
-    {
-        Id: 5,
-        Image: "/assets/images/finish.png"
-    }
-]
 
 const Design = () => {
     debugger;
     const dispatch = useDispatch();
     const designState = useSelector((state) => state.design.DesignInfo);
     const design = designState.design;
-    const [countDownTimer, setCountDown] = useState({});
-    const handleSetCountDown = useCallback(
-        (newValue) => setCountDown(newValue),
-        [],
-    );
     useEffect(() => {
         dispatch(setDesign({
             ...designState,
@@ -54,6 +26,7 @@ const Design = () => {
             IsOpenSaveResult: false,
             MessageSaveResult: null,
             TitleValidation: null,
+            TitleValidationNUmber: null,
         }))
     }, []);
 
@@ -86,6 +59,13 @@ const Design = () => {
     function orichiFormatTime(number) {
         if (number < 10) return "0" + number;
         return number;
+    }
+    const validNumber = (input) => {
+        var isNumber = true;
+        if (!/[0-9]/.test(input)) {
+            isNumber = false;
+        }
+        return isNumber;
     }
     // const CountDown = () => {
     //     const second = 1000,
@@ -213,7 +193,13 @@ const Design = () => {
                     <div className={'list-view'}>
                         <Card>
                             <Card.Section>
-                                {design.LayoutType === 0 ? <Slider ProductIcon={design.ProductIcon} ProductShowProgressBarStatus={design.ProductShowProgressBarStatus}></Slider> : <Grid ProductIcon={design.ProductIcon} ProductShowProgressBarStatus={design.ProductShowProgressBarStatus}></Grid>}
+                                {design.LayoutType === 0 ?
+                                    <Slider ProductColor={design.ProductColor} ProductIcon={design.ProductIcon} ProductShowProgressBarStatus={design.ProductShowProgressBarStatus} TextSold={design.TextSold}
+                                        TextAlmostSoldOut={design.TextAlmostSoldOut}
+                                        TextJustSale={design.TextJustSale}></Slider> :
+                                    <Grid ProductNumberInRow={design.ProductNumberInRow} ProductColor={design.ProductColor} ProductIcon={design.ProductIcon} ProductShowProgressBarStatus={design.ProductShowProgressBarStatus} TextSold={design.TextSold}
+                                        TextAlmostSoldOut={design.TextAlmostSoldOut}
+                                        TextJustSale={design.TextJustSale}></Grid>}
                             </Card.Section>
                         </Card>
                     </div>
@@ -423,7 +409,7 @@ const Design = () => {
                                     </div>
                                     <div className='colLeft w66pt right'>
                                         <div className={'icon'}>
-                                        <div className={'wImage'}>
+                                            <div className={'wImage'}>
                                                 <a href="#" title="" className={'image cover'}>
                                                     <img src={config.rootLink + design.ProductIcon} />
                                                 </a>
@@ -450,16 +436,43 @@ const Design = () => {
                                 design.LayoutType === 1 ? <Card.Section>
                                     <TextField
                                         label="Number of the product in a row"
-                                        value={design.ProductNumberInRow}
+                                        type='number'
+                                        min={1}
+                                        max={100}
+                                        error={design.TitleValidationNUmber}
+                                        value={design.ProductNumberInRow.toString()}
                                         onChange={(e) => {
-                                            dispatch(setDesign({
-                                                ...designState,
-                                                design: {
-                                                    ...design,
-                                                    ProductNumberInRow: e
-                                                },
-                                                IsOpenSaveToolbar: true
-                                            }))
+                                            if (e != '') {
+                                                var isNumber = validNumber(e);
+                                                if (isNumber) {
+                                                    dispatch(setDesign({
+                                                        ...designState,
+                                                        design: {
+                                                            ...design,
+                                                            ProductNumberInRow: e,
+                                                            TitleValidationNUmber: ''
+                                                        },
+                                                        IsOpenSaveToolbar: true
+                                                    }))
+                                                } else {
+                                                    dispatch(setDesign({
+                                                        ...designState,
+                                                        design: {
+                                                            ...design,
+                                                            TitleValidationNUmber: moreAppConfig.DesignValidationProductNumberARow
+                                                        }
+                                                    }))
+                                                }
+                                            }
+
+                                            // dispatch(setDesign({
+                                            //     ...designState,
+                                            //     design: {
+                                            //         ...design,
+                                            //         ProductNumberInRow: e
+                                            //     },
+                                            //     IsOpenSaveToolbar: true
+                                            // }))
                                         }}
                                         autoComplete="off"
                                     />

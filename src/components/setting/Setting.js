@@ -59,8 +59,9 @@ function Setting() {
         }))
     }, []);
     const [timezones, setSelectedTimeZones] = useState(timezonesconfig);
+    debugger;
     let tz1 = timezonesconfig.find(p => p.value == 'Default timezone');
-    let tz = setting.TimeZone !== null || setting.TimeZone !== undefined ? timezonesconfig.find(p => p.time == setting.TimeZone) : tz1;
+    let tz = setting.TimeZone !== null && setting.TimeZone !== undefined && setting.TimeZone !== '' && setting.TimeZoneStr !== null && setting.TimeZoneStr !== undefined && setting.TimeZoneStr !== '' ? timezonesconfig.find(p => p.time == setting.TimeZone && p.value == setting.TimeZoneStr) : tz1;
     const [selectedTimeZone, setSelectedTimeZone] = useState(setting.TimeZone === null ? 'Default timezone' : tz.value);
     const handleSetSelectedTimeZone = useCallback((value) => {
         setSelectedTimeZone(value)
@@ -127,7 +128,7 @@ function Setting() {
             if (!existRow) {
                 dispatch(setSetting({
                     ...settingState,
-                    IsOpenSaveToolbar: true
+                    // IsOpenSaveToolbar: true
                 }))
                 setRowForTableTheme(oldArray => [...oldArray, newItem]);
             } else {
@@ -187,7 +188,8 @@ function Setting() {
                             ...settingState,
                             setting: {
                                 ...setting,
-                                TimeZone: (tz == undefined || tz.value == 'Default timezone') ? null : tz.time
+                                TimeZone: tz == undefined ? null : tz.time,
+                                TimeZoneStr: tz == undefined ? null : tz.value,
                             }
                         }))
                         //Theme
@@ -304,7 +306,7 @@ function Setting() {
                             </div>
                             <div className='colLeft ml-5'>
                                 <Button primary onClick={() => {
-                                    var newItem = [selectedSection, convertDate(Date.now()),Date.now(), <><div className='remove-code'>
+                                    var newItem = [selectedSection, convertDate(Date.now()), Date.now(), <><div className='remove-code'>
                                         <Link onClick={() => { removeTheme(newItem) }}> Remove Code</Link>
                                     </div></>];
                                     AddTheme(newItem);
@@ -476,6 +478,17 @@ function Setting() {
                         transition={{ duration: '500ms', timingFunction: 'ease-in-out' }}
                         expandOnPrint
                     >
+                        <div className='bound-section'>
+                            <div className='video-frame'>
+                                <div class="wImage">
+                                    <a href="#" title="" class="image cover">
+                                        <iframe src="https://www.youtube.com/embed/ReMT7eCJvCc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen width='100%' height='100%'></iframe>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </Collapsible>
                 </Card>
             </div>

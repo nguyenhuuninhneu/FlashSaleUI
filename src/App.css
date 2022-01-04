@@ -412,10 +412,15 @@
   width: 20%;
 }
 .design .show-product .logo-section .logo .wImage::before{
-  padding-bottom: 100%;
+  padding-bottom: 19%;
 }
 .design .show-product .logo-section .logo .wImage .image{
   width: 100%;
+}
+.design .show-product .logo-section .logo .wImage .image img {
+  width: auto;
+  height: auto;
+  object-fit: none;
 }
 .design .show-product .logo-section .logo,
 .design .show-product .logo-section .orichi-countdown{
@@ -513,10 +518,24 @@ input[type="color"]::-webkit-color-swatch {
 .design .section-product-setting .flashsale-image .logo .wImage{
   width: 20%;
 }
+.design .section-product-setting .flashsale-image .logo .image.cover img{
+  width: auto;
+  height: auto;
+  /* object-fit: none; */
+}
+.design .section-product-setting .flashsale-image .icon .image.cover img{
+  width: auto;
+  height: auto;
+  /* object-fit: none; */
+}
 
 .design .section-product-setting .flashsale-image .icon{
   display: inline-block;
   width: 20%;
+}
+
+.design .section-product-setting .flashsale-image .icon .wImage::before{
+  padding-bottom: 100%;
 }
 .design .section-product-setting .flashsale-image .right{
   position: relative;
@@ -571,7 +590,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .orichi-product-list .wImage {
-	margin-bottom: 8px;
+	margin-bottom: 15px;
 }
 
 .orichi-product-list .wImage:before {
@@ -630,9 +649,9 @@ input[type="color"]::-webkit-color-swatch {
 .orichi-discount-price {
 	position: absolute;
 	background: #F3E9E7;
-	top: -65%;
-	right: -40%;
-	font-size: 8px;
+	top: -15px;
+    right: -30px;
+    font-size: 9px;
 	color: #ee4d2d;
 	font-weight: bold;
 	padding: 2px;
@@ -765,4 +784,5 @@ padding: 0;
  color:#ADADAD;
 }
 
-
+.video-frame .wImage { width: 100%;}
+.video-frame .wImage:before {padding-bottom: 56.31%}

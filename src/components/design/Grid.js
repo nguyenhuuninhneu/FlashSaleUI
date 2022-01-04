@@ -6,84 +6,164 @@ function Grid(props) {
     var listProduct = [
         {
             Id: 1,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 2,
+            Percent: 20,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 2,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 129,
+            Percent: 80,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 3,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 300,
+            Percent: 90,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 4,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 0,
+            Percent: 0,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 5,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 2,
+            Percent: 20,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 6,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 129,
+            Percent: 80,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 7,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 300,
+            Percent: 90,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 8,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 0,
+            Percent: 0,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 9,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 2,
+            Percent: 20,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 10,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 129,
+            Percent: 80,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 11,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 300,
+            Percent: 90,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 12,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 0,
+            Percent: 0,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 13,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 2,
+            Percent: 20,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 14,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 129,
+            Percent: 80,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 15,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 300,
+            Percent: 90,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 16,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 0,
+            Percent: 0,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 17,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 2,
+            Percent: 20,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 18,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 129,
+            Percent: 80,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 19,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 300,
+            Percent: 90,
+            Discount: 10,
+            Price: 32.99
         },
         {
             Id: 20,
-            Image: "/build/static/media/NoCampaign.3fb2811c.png"
-        }
+            Image: config.rootLink + '/Content/ProductImage.png',
+            Mount: 0,
+            Percent: 0,
+            Discount: 10,
+            Price: 32.99
+        },
     ]
     const [isLoading, setLoading] = useState(false);
     const handleSetLoading = useCallback(
@@ -91,65 +171,69 @@ function Grid(props) {
         [],
     );
     const [isHideButtonViewMore, setHideButtonViewMore] = useState(false);
-    const handleSetHideButtonViewMore = useCallback(
-        (newValue) => setHideButtonViewMore(newValue),
-        [],
-    );
-    const [limitItem, setLimitItem] = useState(4);
-    const handleSetLimitItem = useCallback(
-        (newValue) => { setLimitItem(newValue) },
-        [],
-    );
+    const [limitItem, setLimitItem] = useState(parseInt(props.ProductNumberInRow));
+
+    const [LoadProduct, setLoadProduct] = useState(listProduct);
     const viewMore = () => {
         if (listProduct.length === limitItem) {
             setHideButtonViewMore(true);
-            handleSetLoading(false);
+            setLimitItem(limitItem => limitItem + parseInt(props.ProductNumberInRow));
+            setLoading(false);
         } else {
-            handleSetLoading(true);
-            setLimitItem(limitItem => limitItem + 4);
-            handleSetLoading(false);
+            setLoading(true);
+            setLimitItem(limitItem => limitItem + parseInt(props.ProductNumberInRow));
+            setLoading(false);
         }
 
-
     }
-    const LoadProduct = listProduct.slice(0, limitItem).map((product) => {
-        return (
-            <>
-                <div className="orichi-product-item" key={product.Id}>
-                    <div className="wImage">
-                        <a href="#" title="" className="image cover">
-                            <img src={product.Image} />
-                        </a>
-                    </div>
-                    <div className="orichi-price-wrapper">
-                        <div className="orichi-price">$150.000
-                            <div className="orichi-discount-price">-10%</div>
-                        </div>
-                    </div>
-                    {
-                        props.ProductShowProgressBarStatus === true ? <div className="orichi-progress-bar">
-                            <div className="orichi-flash-sale-progress-bar">
-                                <div
-                                    className="orichi-flash-sale-progress-bar__complement-wrapper">
-                                </div>
-                                <div className="orichi-flash-sale-progress-bar__text">Sold 159</div>
-
-                                <div className="orichi-flash-sale-progress-bar__fire">
-                                    <img src={config.rootLink + props.ProductIcon} />
-                                </div>
-                            </div>
-                        </div> : ''
-                    }
-
-                </div>
-            </>
-        );
-    });
 
     return (
         <div className="orichi-product-group">
             <div className="orichi-product-list grid-view">
-                {LoadProduct}
+                {LoadProduct.length > 0 ?
+                    LoadProduct.slice(0, limitItem).map((product) => {
+                        return (
+                            <>
+                                <div className="orichi-product-item" key={product.Id} style={{ width: `calc((100% - (12px*${props.ProductNumberInRow})) / ${props.ProductNumberInRow})` }}>
+                                    <div className="wImage">
+                                        <a href="#" title="" className="image cover">
+                                            <img src={product.Image} />
+                                        </a>
+                                    </div>
+                                    <div className="orichi-price-wrapper">
+                                        <div className="orichi-price" style={{ color: props.ProductColor }}>{'$' + product.Price}
+                                            <div className="orichi-discount-price" style={{ color: props.ProductColor, border: '1px solid ' + props.ProductColor }}>-{product.Discount}%</div>
+                                        </div>
+                                    </div>
+                                    {
+                                        props.ProductShowProgressBarStatus === true ? <div className="orichi-progress-bar">
+                                            <div className="orichi-flash-sale-progress-bar">
+                                                <div
+                                                    className="orichi-flash-sale-progress-bar__complement-wrapper" style={{ background: props.ProductColor, width: product.Percent + '%' }}>
+                                                </div>
+                                                <div className="orichi-flash-sale-progress-bar__text">
+                                                    {
+                                                        product.Percent === 0 ? props.TextJustSale : product.Percent < 90 ? props.TextSold + ' ' + product.Mount : props.TextAlmostSoldOut
+                                                    }
+                                                   
+                                                </div>
+                                                {
+                                                    product.Percent >= 80 ? <> <div className="orichi-flash-sale-progress-bar__fire">
+                                                        <img src={config.rootLink + props.ProductIcon} />
+                                                    </div></> : ''
+                                                }
+
+                                            </div>
+                                        </div> : ''
+                                    }
+
+                                </div>
+                            </>
+
+                        );
+
+                    })
+                    : ''}
                 <div className="orichi-cb"></div>
             </div>
             {isLoading ? <>
@@ -159,9 +243,12 @@ function Grid(props) {
                         <div className="dot-spin"></div>
                     </div>
                 </div>
-            </> : !isHideButtonViewMore ? <>
-                <div className="orichi-view-more"><Button onClick={() => { viewMore() }}>View more</Button></div>
             </> : ''}
+            {
+                !isHideButtonViewMore ? <>
+                    <div className="orichi-view-more"><Button onClick={() => { viewMore() }}>View more</Button></div>
+                </> : ''
+            }
 
 
         </div>

@@ -6,3 +6,7 @@ export const SET_ISOPENSAVETOOLBAR = "setting/SET_ISOPENSAVETOOLBAR";
 export const SET_ISSAVELOADING = "setting/SET_ISSAVELOADING";
 export const SAVE_SETTINGCOMPLETED = "setting/SAVE_SETTINGCOMPLETED";
 export const SAVE_SETTINGFAILED = "setting/SAVE_SETTINGFAILED";
+export const GET_THEME = "setting/GET_THEME";
+export const CREATE_SECTION = "setting/CREATE_SECTION";
+export const REMOVE_SECTION = "setting/REMOVE_SECTION";
+export const CREATE_FLASHSALE_PAGE = "setting/CREATE_FLASHSALE_PAGE";

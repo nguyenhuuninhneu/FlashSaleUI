@@ -46,8 +46,28 @@ export const saveSetting = () => {
   }
 }
 
+export const getTheme = () => {
+  return (dispatch, getState) => {
+    dispatch(actions.setIsSaveLoading());
+    debugger;
+    
+    axios.get(config.rootLink + '/FrontEnd/GetThemes', {
+      shop: config.shop
+    })
+      .then(function (response) {
+        const result = response?.data;
+        dispatch(actions.saveSettingCompleted(result));
+      })
+      .catch(function (error) {
+        const errorMsg = error.message;
+        dispatch(actions.saveSettingFailed(errorMsg));
+      })
+
+  }
+}
+
 export default {
   fetchSetting,
-  // createCampaign,
+  saveSetting,
   // saveCampaign
 };
