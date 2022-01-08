@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     IsOpenSaveResult: false,
     MessageSaveResult: null,
     TitleValidation: null,
-    ListThemes: null,
+    ListThemes: [],
     IsShowLoadingCreateSection: false,
     IsShowLoadingEnableApp: false,
     IsShowLoadingCreateFSPage: false,

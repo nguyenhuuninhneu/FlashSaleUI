@@ -53,6 +53,7 @@ function Setting() {
             IsShowLoadingEnableApp: false,
             IsShowLoadingCreateSection: false,
             IsShowLoadingCreateFSPage: false,
+            ListThemes:[],
             setting: {
                 ...setting,
                 PageCreatedDateStr: '',
@@ -64,22 +65,9 @@ function Setting() {
     let tz1 = timezonesconfig.find(p => p.value == 'Default timezone');
     let tz = setting.TimeZone !== null && setting.TimeZone !== undefined && setting.TimeZone !== '' && setting.TimeZoneStr !== null && setting.TimeZoneStr !== undefined && setting.TimeZoneStr !== '' ? timezonesconfig.find(p => p.time == setting.TimeZone && p.value == setting.TimeZoneStr) : tz1;
     const [selectedTimeZone, setSelectedTimeZone] = useState(setting.TimeZone === null ? 'Default timezone' : tz.value);
-    const handleSetSelectedTimeZone = useCallback((value) => {
-        setSelectedTimeZone(value)
-        dispatch(setSetting({
-            ...settingState,
-            IsOpenSaveToolbar: true
-        }))
-    }, []);
 
     const [selectedSection, setSelectedSection] = useState('');
     
-    const optionsSection = [
-        { label: 'Select your section', value: '' },
-        { label: 'Debut 1', value: 'debut1' },
-        { label: 'Debut 2', value: 'debut2' },
-        { label: 'Debut 3', value: 'debut3' }
-    ];
     const [openOne, setOpenOne] = useState(true);
     const [openTwo, setOpenTWo] = useState(false);
     const [openThree, setOpenThree] = useState(false);
@@ -116,6 +104,8 @@ function Setting() {
         }))
         dispatch(removeSection(id));
     }
+    debugger;
+    
     return (
         <>
             {settingState.IsOpenSaveToolbar ? <ContextualSaveBar
@@ -195,7 +185,7 @@ function Setting() {
                                                         IsOpenSaveToolbar: true
                                                     }))
                                                 }}
-                                            value={selectedTimeZone}
+                                                value={selectedTimeZone}
                                             />
                                         </div>
 
@@ -212,7 +202,7 @@ function Setting() {
                                     <div className='use-section' onClick={handleToggleOne} ariaExpanded={openOne}
                                         ariaControls="basic-collapsible-1">
                                         <div className='title colLeft'>
-                                            {settingState.ListThemes != null && settingState.ListThemes != null && settingState.ListThemes.length > 0 ? settingState.ListThemes[0] : 'I. Use the section'}
+                                            I. Use the section
                                         </div>
                                         <div className='colRight'>
                                             <FontAwesomeIcon icon={openOne ? faChevronDown : faChevronRight} />
@@ -233,8 +223,10 @@ function Setting() {
                                         </p>
                                         <div className='colLeft w66pt'>
                                             <Select
-                                                options={optionsSection}
-                                                onChange={(value)=>{
+                                                options={[settingState.ListThemes.map((theme,index)=>{
+                                                    return {label: theme.Name, value: theme.Id}
+                                                })]}
+                                                onChange={(value) => {
                                                     setSelectedSection(value);
                                                     if (value !== null && value !== undefined && value !== '') {
                                                         dispatch(setSetting({
@@ -246,7 +238,7 @@ function Setting() {
                                                             ...settingState,
                                                             TitleValidationTheme: moreAppConfig.SettingValidationSelectTheme
                                                         }))
-                                                    }   
+                                                    }
                                                 }}
                                                 value={selectedSection}
                                                 error={settingState.TitleValidationTheme}
@@ -301,7 +293,7 @@ function Setting() {
                                     <div className='use-section' onClick={handleToggleTwo} ariaExpanded={openTwo}
                                         ariaControls="basic-collapsible-2">
                                         <div className='title colLeft'>
-                                            {settingState.ListThemes != null && settingState.ListThemes != null && settingState.ListThemes.length > 0 ? settingState.ListThemes[1] : 'II. Use the page'}
+                                            II. Use the page
 
                                         </div>
                                         <div className='colRight'>
@@ -431,7 +423,7 @@ function Setting() {
                                     <div className='use-section' onClick={handleToggleThree} ariaExpanded={openThree}
                                         ariaControls="basic-collapsible-3">
                                         <div className='title colLeft'>
-                                            {settingState.ListThemes != null && settingState.ListThemes != null && settingState.ListThemes.length > 0 ? settingState.ListThemes[2] : 'III. Add to the theme'}
+                                            III. Add to the theme
 
                                         </div>
                                         <div className='colRight'>

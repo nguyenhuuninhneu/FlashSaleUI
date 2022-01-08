@@ -59,8 +59,8 @@ export const getThemes = () => {
       }
     })
       .then(function (response) {
-        // const result = response?.data;
-        const result = ['I. A', 'II. B', 'III. C'];
+        debugger;
+        const result = response?.data?.themes;
         dispatch(actions.setSetting({
           ...getState().setting.SettingInfo,
           IsShowLoadingSettingComponent: false,
