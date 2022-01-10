@@ -78,11 +78,12 @@ export const getThemes = () => {
   }
 }
 
-export const createSection = (name, createdAt) => {
+export const createSection = (id,name, createdAt) => {
   return (dispatch, getState) => {
     debugger
     var params = {
       shop: config.shop,
+      id: id,
       name: name,
       createdAt: createdAt
     }

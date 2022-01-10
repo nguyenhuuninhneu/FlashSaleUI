@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     IsOpenSaveToolbar: false,
     IsSaveLoading: false,
     IsOpenSaveResult: false,
+    IsReloadGridData: false,
     MessageSaveResult: null,
     TitleValidationTheme: null,
     TitleValidationPageUrl: null,

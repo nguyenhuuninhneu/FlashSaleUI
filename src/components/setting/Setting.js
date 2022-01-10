@@ -4,7 +4,7 @@ import { setSetting } from '../../state/modules/setting/actions';
 import { Card, Select, Heading, DataTable, Page, TextField, Button, TextStyle, Modal, Toast, TextContainer, Collapsible, Link, ContextualSaveBar } from '@shopify/polaris';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faChevronDown, faClone } from '@fortawesome/free-solid-svg-icons'
-import { saveSetting, getThemes, createSection, removeSection, createFlashSalePage } from '../../state/modules/setting/operations';
+import { saveSetting, createSection, removeSection, createFlashSalePage } from '../../state/modules/setting/operations';
 import moreAppConfig from '../../config/moreAppConfig';
 import timezonesconfig from '../../config/timezone';
 import Loading from '../plugins/Loading';
@@ -15,6 +15,7 @@ function Setting() {
     const settingState = useSelector((state) => state.setting.SettingInfo);
     const setting = settingState.setting;
     function convertDate(date) {
+        debugger;
         var getDate = new Date();
         if (date !== null && date.toString().includes('/Date')) {
             var numberDate = Number(date.toString().replace('/Date(', '').replace(')/', ''));
@@ -38,7 +39,8 @@ function Setting() {
         var strDate = month + '/' + day + '/' + getDate.getFullYear() + ', ' + hours + ':' + minutes;
         return strDate;
     }
-    if (setting != null && setting.PageCreatedDate !== null && setting.PageCreatedDateStr !== null) {
+    if (setting != null && setting.PageCreatedDate !== null && setting.PageCreatedDateStr !== null&& setting.PageCreatedDateStr != undefined&& setting.PageCreatedDateStr != "") {
+        debugger;
         setting.PageCreatedDateStr = convertDate(setting.PageCreatedDate);
     }
     useEffect(() => {
@@ -53,7 +55,6 @@ function Setting() {
             IsShowLoadingEnableApp: false,
             IsShowLoadingCreateSection: false,
             IsShowLoadingCreateFSPage: false,
-            ListThemes:[],
             setting: {
                 ...setting,
                 PageCreatedDateStr: '',
@@ -63,8 +64,8 @@ function Setting() {
 
     const [timezones, setSelectedTimeZones] = useState(timezonesconfig);
     let tz1 = timezonesconfig.find(p => p.value == 'Default timezone');
-    let tz = setting.TimeZone !== null && setting.TimeZone !== undefined && setting.TimeZone !== '' && setting.TimeZoneStr !== null && setting.TimeZoneStr !== undefined && setting.TimeZoneStr !== '' ? timezonesconfig.find(p => p.time == setting.TimeZone && p.value == setting.TimeZoneStr) : tz1;
-    const [selectedTimeZone, setSelectedTimeZone] = useState(setting.TimeZone === null ? 'Default timezone' : tz.value);
+    let tz = setting != null && setting.TimeZone !== null && setting.TimeZone !== undefined && setting.TimeZone !== '' && setting.TimeZoneStr !== null && setting.TimeZoneStr !== undefined && setting.TimeZoneStr !== '' ? timezonesconfig.find(p => p.time == setting.TimeZone && p.value == setting.TimeZoneStr) : tz1;
+    const [selectedTimeZone, setSelectedTimeZone] = useState(setting!= null && setting.TimeZone === null ? 'Default timezone' : tz.value);
 
     const [selectedSection, setSelectedSection] = useState('');
     
@@ -81,14 +82,15 @@ function Setting() {
         setOpenThree((openThree) => !openThree);
     }, []);
 
-    const AddTheme = (newItem) => {
-        if (newItem !== null && newItem !== undefined && newItem !== '') {
+    const AddTheme = (id) => {
+        debugger;
+        if (id !== null && id !== undefined && id !== '') {
             dispatch(setSetting({
                 ...settingState,
                 IsShowLoadingCreateSection: true
             }))
-
-            dispatch(createSection(newItem, new Date()));
+            const theme = settingState.ListThemes.filter(theme => theme.Id.toString() == id);
+            dispatch(createSection(id, theme[0].Name, new Date()));
         } else {
             dispatch(setSetting({
                 ...settingState,
@@ -105,7 +107,11 @@ function Setting() {
         dispatch(removeSection(id));
     }
     debugger;
-    
+    var optionsSection = [];
+    optionsSection.push({label: 'Select section', value: ''})
+    settingState.ListThemes.forEach((theme,index)=>{
+        optionsSection.push({label: theme.Name, value: theme.Id.toString()})
+    })
     return (
         <>
             {settingState.IsOpenSaveToolbar ? <ContextualSaveBar
@@ -179,6 +185,7 @@ function Setting() {
                                                 label="Timezone"
                                                 options={timezones}
                                                 onChange={(e) => {
+                                                    debugger;
                                                     setSelectedTimeZone(e)
                                                     dispatch(setSetting({
                                                         ...settingState,
@@ -223,10 +230,9 @@ function Setting() {
                                         </p>
                                         <div className='colLeft w66pt'>
                                             <Select
-                                                options={[settingState.ListThemes.map((theme,index)=>{
-                                                    return {label: theme.Name, value: theme.Id}
-                                                })]}
+                                                options={optionsSection}
                                                 onChange={(value) => {
+                                                    debugger;
                                                     setSelectedSection(value);
                                                     if (value !== null && value !== undefined && value !== '') {
                                                         dispatch(setSetting({

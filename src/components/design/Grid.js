@@ -165,22 +165,30 @@ function Grid(props) {
             Price: 32.99
         },
     ]
-    const [isLoading, setLoading] = useState(false);
-    const handleSetLoading = useCallback(
-        (newValue) => setLoading(newValue),
-        [],
-    );
-    const [isHideButtonViewMore, setHideButtonViewMore] = useState(false);
     const [limitItem, setLimitItem] = useState(parseInt(props.ProductNumberInRow));
-
+    useEffect(() => { 
+        setLimitItem(parseInt(props.ProductNumberInRow)); 
+        setTotalPage(Math.ceil(listProduct.length / parseInt(props.ProductNumberInRow)));
+        if (props.IsReloadGridData) {
+            setCurrentPage(currentPage => 1);
+            setHideButtonViewMore(false);
+            props.hanldeCallBackSetLoadGrid(false);
+        }
+    }, [parseInt(props.ProductNumberInRow)])
+    const [isLoading, setLoading] = useState(false);
+    const [isHideButtonViewMore, setHideButtonViewMore] = useState(false);
     const [LoadProduct, setLoadProduct] = useState(listProduct);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(Math.ceil(listProduct.length / parseInt(props.ProductNumberInRow)));
+    
     const viewMore = () => {
-        if (listProduct.length === limitItem) {
+        if (currentPage === totalPage) {
             setHideButtonViewMore(true);
-            setLimitItem(limitItem => limitItem + parseInt(props.ProductNumberInRow));
             setLoading(false);
         } else {
+            setHideButtonViewMore(false);
             setLoading(true);
+            setCurrentPage(currentPage => currentPage + 1);
             setLimitItem(limitItem => limitItem + parseInt(props.ProductNumberInRow));
             setLoading(false);
         }
@@ -215,7 +223,7 @@ function Grid(props) {
                                                     {
                                                         product.Percent === 0 ? props.TextJustSale : product.Percent < 90 ? props.TextSold + ' ' + product.Mount : props.TextAlmostSoldOut
                                                     }
-                                                   
+
                                                 </div>
                                                 {
                                                     product.Percent >= 80 ? <> <div className="orichi-flash-sale-progress-bar__fire">

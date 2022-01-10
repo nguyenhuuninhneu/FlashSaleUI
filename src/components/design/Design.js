@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Card, Stack, RadioButton, TextField, ButtonGroup, Button, TextStyle, Modal, Toast, TextContainer, ContextualSaveBar } from '@shopify/polaris';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDesign } from '../../state/modules/design/actions';
-import { saveDesign } from '../../state/modules/design/operations';
+import { saveDesign, fetchDesign } from '../../state/modules/design/operations';
 import config from '../../config/config';
 import Grid from './Grid';
 import Slider from './Slider';
@@ -23,6 +23,7 @@ const Design = () => {
             IsOpenSaveToolbar: false,
             IsSaveLoading: false,
             IsOpenSaveResult: false,
+            IsReloadGridData: false,
             MessageSaveResult: null,
             TitleValidation: null,
             TitleValidationNumber: null,
@@ -55,6 +56,12 @@ const Design = () => {
         },
         [],
     );
+    const hanldeCallBackSetLoadGrid = (value) =>{
+        setDesign({
+            ...designState,
+            IsReloadGridData: false
+        })
+    } 
     function orichiFormatTime(number) {
         if (number < 10) return "0" + number;
         return number;
@@ -203,7 +210,7 @@ const Design = () => {
                                                     TextJustSale={design.TextJustSale}></Slider> :
                                                 <Grid ProductNumberInRow={design.ProductNumberInRow} ProductColor={design.ProductColor} ProductIcon={design.ProductIcon} ProductShowProgressBarStatus={design.ProductShowProgressBarStatus} TextSold={design.TextSold}
                                                     TextAlmostSoldOut={design.TextAlmostSoldOut}
-                                                    TextJustSale={design.TextJustSale}></Grid>}
+                                                    TextJustSale={design.TextJustSale} IsReloadGridData={designState.IsReloadGridData} hanldeCallBackSetLoadGrid={hanldeCallBackSetLoadGrid}></Grid>}
                                         </Card.Section>
                                     </Card>
                                 </div>
@@ -453,6 +460,7 @@ const Design = () => {
                                                                 ProductNumberInRow: e.toString(),
                                                                 TitleValidationNumber: (e.toString() === '' ? moreAppConfig.DesignValidationProductNumberARowNotNull : e <= 0 ? moreAppConfig.DesignValidationProductNumberARowGreater : '')
                                                             },
+                                                            IsReloadGridData: true,
                                                             IsOpenSaveToolbar: true
                                                         }))
 
