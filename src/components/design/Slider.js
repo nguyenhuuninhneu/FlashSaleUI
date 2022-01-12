@@ -8,7 +8,7 @@ function Slider(props) {
     var listProduct = [
         {
             Id: 1,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 2,
             Percent: 20,
             Discount: 10,
@@ -16,7 +16,7 @@ function Slider(props) {
         },
         {
             Id: 2,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 129,
             Percent: 80,
             Discount: 10,
@@ -24,7 +24,7 @@ function Slider(props) {
         },
         {
             Id: 3,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 300,
             Percent: 90,
             Discount: 10,
@@ -32,7 +32,7 @@ function Slider(props) {
         },
         {
             Id: 4,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 0,
             Percent: 0,
             Discount: 10,
@@ -40,7 +40,7 @@ function Slider(props) {
         },
         {
             Id: 5,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 2,
             Percent: 20,
             Discount: 10,
@@ -48,7 +48,7 @@ function Slider(props) {
         },
         {
             Id: 6,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 129,
             Percent: 80,
             Discount: 10,
@@ -56,7 +56,7 @@ function Slider(props) {
         },
         {
             Id: 7,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 300,
             Percent: 90,
             Discount: 10,
@@ -64,7 +64,7 @@ function Slider(props) {
         },
         {
             Id: 8,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 0,
             Percent: 0,
             Discount: 10,
@@ -72,7 +72,7 @@ function Slider(props) {
         },
         {
             Id: 9,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 2,
             Percent: 20,
             Discount: 10,
@@ -80,7 +80,7 @@ function Slider(props) {
         },
         {
             Id: 10,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 129,
             Percent: 80,
             Discount: 10,
@@ -88,7 +88,7 @@ function Slider(props) {
         },
         {
             Id: 11,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 300,
             Percent: 90,
             Discount: 10,
@@ -96,7 +96,7 @@ function Slider(props) {
         },
         {
             Id: 12,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 0,
             Percent: 0,
             Discount: 10,
@@ -104,7 +104,7 @@ function Slider(props) {
         },
         {
             Id: 13,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 2,
             Percent: 20,
             Discount: 10,
@@ -112,7 +112,7 @@ function Slider(props) {
         },
         {
             Id: 14,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 129,
             Percent: 80,
             Discount: 10,
@@ -120,7 +120,7 @@ function Slider(props) {
         },
         {
             Id: 15,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 300,
             Percent: 90,
             Discount: 10,
@@ -128,7 +128,7 @@ function Slider(props) {
         },
         {
             Id: 16,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 0,
             Percent: 0,
             Discount: 10,
@@ -136,7 +136,7 @@ function Slider(props) {
         },
         {
             Id: 17,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 2,
             Percent: 20,
             Discount: 10,
@@ -144,7 +144,7 @@ function Slider(props) {
         },
         {
             Id: 18,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 129,
             Percent: 80,
             Discount: 10,
@@ -152,7 +152,7 @@ function Slider(props) {
         },
         {
             Id: 19,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 300,
             Percent: 90,
             Discount: 10,
@@ -160,7 +160,7 @@ function Slider(props) {
         },
         {
             Id: 20,
-            Image: config.rootLink + '/Content/ProductImage.png',
+            Image: config.rootLink + '/Images/ProductImage.png',
             Mount: 0,
             Percent: 0,
             Discount: 10,
