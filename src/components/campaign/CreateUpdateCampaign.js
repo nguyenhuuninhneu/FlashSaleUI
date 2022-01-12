@@ -98,7 +98,7 @@ const CreateUpdateCampaign = () => {
                 <IndexTable.Row
                     id={id}
                     key={id}
-                    selected={selectedResources.includes(id)}
+                    selected={selectedResources.includes(ProductPrice)}
                     position={index}
                 >
                     <IndexTable.Cell>{ProductTitle}</IndexTable.Cell>
@@ -143,7 +143,7 @@ const CreateUpdateCampaign = () => {
                 </IndexTable.Row>
             ),
         );
-    debugger;
+    
     return (
 
         <div className="campaign-form">
@@ -151,7 +151,58 @@ const CreateUpdateCampaign = () => {
                 message="Unsaved changes"
                 saveAction={{
                     content: "Save",
-                    onAction: () => { dispatch(saveCampaign()) },
+                    onAction: () => { 
+                        //valid number row;
+                        var isSubmit = true;
+                        
+                        if (campaign.Title.toString() == '' || campaign.Title.toString() === null) {
+                            dispatch(setCreateUpdateCampaign({
+                                ...campaignState,
+                                TitleValidation: moreAppConfig.TilteValidationText
+                            }))
+                            return false;
+                        }
+                        if (campaign.StartTime.toString() == '' || campaign.StartTime.toString() === null ||campaign.StartTimeEdit.toString() == '' || campaign.StartTimeEdit.toString() === null) {
+                            dispatch(setCreateUpdateCampaign({
+                                ...campaignState,
+                                StartTimeValidation: moreAppConfig.StartTimeValidationText
+                            }))
+                            return false;
+                        }
+                        
+                        if (campaign.EndTime.toString() == '' || campaign.EndTime.toString() === null ||campaign.EndTimeEdit.toString() == '' || campaign.EndTimeEdit.toString() === null) {
+                            dispatch(setCreateUpdateCampaign({
+                                ...campaignState,
+                                EndTimeValidation: moreAppConfig.EndTimeValidationText
+                            }))
+                            return false;
+                        }
+                        if ((campaign.StartTime.toString() != '' && campaign.EndTime.toString() != '')) 
+                        {
+                            var startTime = Date.parse(campaign.StartTime);
+                            var endTime = Date.parse(campaign.EndTime);
+                            if (endTime <= startTime) {
+                                dispatch(setCreateUpdateCampaign({
+                                    ...campaignState,
+                                    EndTimeValidation: moreAppConfig.EndTimeGreateThanStartTimeValidationText
+                                }))
+                                return false;
+                            }
+                        }
+                        if ((campaign.StartTimeEdit.toString() != '' && campaign.EndTimeEdit.toString() != '')) 
+                        {
+                            var startTime = Date.parse(campaign.StartTimeEdit);
+                            var endTime = Date.parse(campaign.EndTimeEdit);
+                            if (endTime <= startTime) {
+                                dispatch(setCreateUpdateCampaign({
+                                    ...campaignState,
+                                    EndTimeValidation: moreAppConfig.EndTimeGreateThanStartTimeValidationText
+                                }))
+                                return false;
+                            }
+                        }
+                        dispatch(saveCampaign())
+                    },
                     loading: campaignState.IsSaveLoading,
                 }}
                 discardAction={{
