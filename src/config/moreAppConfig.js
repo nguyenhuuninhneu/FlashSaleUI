@@ -9,7 +9,10 @@ const moreAppConfig = {
     SettingValidationExistTheme: 'The theme is existed. Please choose another theme.',
     SettingValidationPageTitle: 'Page Title is not empty.',
     DesignValidationProductNumberARowNotNull: 'The number of product in a row is not valid.',
-    DesignValidationProductNumberARowGreater: 'The number of product in a row must be greater than 0.'
+    DesignValidationProductNumberARowGreater: 'The number of product in a row must be greater than 0.',
+    InventoryValidationText: 'Intentory must be required.',
+    DiscountValidationText: 'Discount must be required.',
+
     
 }
 export default moreAppConfig;

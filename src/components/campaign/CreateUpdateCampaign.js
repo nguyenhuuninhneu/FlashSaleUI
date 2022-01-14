@@ -1,13 +1,13 @@
 import { Provider, ResourcePicker } from '@shopify/app-bridge-react';
-import { Button, ButtonGroup, Card, ContextualSaveBar, Heading, IndexTable, TextField, Toast, useIndexResourceState } from '@shopify/polaris';
-import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup, Card, ContextualSaveBar, Heading, IndexTable, TextField, Toast, useIndexResourceState, Modal, TextContainer } from '@shopify/polaris';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCreateUpdateCampaign } from '../../state/modules/campaign/actions';
 import config from '../../config/config';
 import { saveCampaign } from '../../state/modules/campaign/operations';
 import moreAppConfig from '../../config/moreAppConfig';
 
-const CreateUpdateCampaign = () => {
+const CreateUpdateCampaign = (props) => {
     const dispatch = useDispatch();
     const [IsOpenProductPicker, setIsOpenProductPicker] = useState(false);
     const campaignState = useSelector((state) => state.campaign.CreateUpdateCampaign);
@@ -29,10 +29,135 @@ const CreateUpdateCampaign = () => {
             StartTimeValidation: null,
             EndTimeValidation: null,
             ProductValidation: null,
-            TextSearchProduct: null
+            TextSearchProduct: null,
+            InventoryValidation: null,
+            DiscountValidation: null,
+
         }))
     }, []);
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+    }
+    
+    const makeMoney = (x, expect) => {
+        const result = numberWithCommas(x);
+        const pass = result === expect;
+        console.log(`${pass ? "✓" : "ERROR ====>"} ${x} => ${result}`);
+        return result;
+    }
+    const [updateDiscount, setUpdateDiscount] = useState("0");
+    const handleChangeTextDiscount = (e) => {
+        setUpdateDiscount(e);
+        if (e == null || e == undefined || e == '') {
+            dispatch(setCreateUpdateCampaign({
+                ...campaignState,
+                DiscountValidation: moreAppConfig.DiscountValidationText
+            }))
+        }
+        else {
+            dispatch(setCreateUpdateCampaign({
+                ...campaignState,
+                DiscountValidation: ''
+            }))
+        }
+    };
+    const [updateInventory, setUpdateInventory] = useState("0");
+    const handleChangeTextInventory = (e) => {
+        setUpdateInventory(e);
+        if (e == null || e == undefined || e == '') {
+            dispatch(setCreateUpdateCampaign({
+                ...campaignState,
+                InventoryValidation: moreAppConfig.InventoryValidationText
+            }))
+        }
+        else {
+            dispatch(setCreateUpdateCampaign({
+                ...campaignState,
+                InventoryValidation: ''
+            }))
+        }
+    }
 
+
+    const [IsOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+    const [IsOpenUpdateDiscountModal, setIsOpenUpdateDiscountModal] = useState(false);
+    const [IsOpenUpdateInventoryModal, setIsOpenUpdateInventoryModal] = useState(false);
+    const onClickDeleteProduct = () => {
+        setIsOpenDeleteModal(true);
+    }
+
+    const handleDeleteProduct = () => {
+        
+
+        var arrPro = campaign.ListDetails.filter(p => selectedResources.indexOf(p.ID) == -1);
+        dispatch(setCreateUpdateCampaign(
+            {
+                ...campaignState,
+                campaign:
+                {
+                    ...campaign,
+                    ListDetails: arrPro
+                },
+                IsOpenSaveToolbar: true
+            }));
+        setIsOpenDeleteModal(false);
+    }
+    const onClickUpdateDiscount = () => {
+        setUpdateDiscount('0');
+        setIsOpenUpdateDiscountModal(true);
+    }
+
+    const handleUpdateDiscount = () => {
+        if (updateDiscount == null || updateDiscount == undefined || updateDiscount == '') {
+            dispatch(setCreateUpdateCampaign({
+                ...campaignState,
+                DiscountValidation: moreAppConfig.DiscountValidationText
+            }))
+            return false;
+        }
+        
+        dispatch(setCreateUpdateCampaign({
+            ...campaignState,
+            campaign: {
+                ...campaign,
+                ListDetails: campaign.ListDetails.map((p, i) => (selectedResources.indexOf(p.ID) >= 0 ? {
+                    ...p,
+                    Percentage: updateDiscount
+                } : p))
+            },
+            IsOpenSaveToolbar: true
+        }))
+        setIsOpenUpdateDiscountModal(false);
+    }
+    const onClickUpdateInventory = () => {
+        setUpdateInventory('0');
+        setIsOpenUpdateInventoryModal(true);
+    }
+
+    const handleUpdateInventory = () => {
+        if (updateInventory == null || updateInventory == undefined || updateInventory == '') {
+            dispatch(setCreateUpdateCampaign({
+                ...campaignState,
+                InventoryValidation: moreAppConfig.InventoryValidationText
+            }))
+            return false;
+        }
+
+        
+        dispatch(setCreateUpdateCampaign({
+            ...campaignState,
+            campaign: {
+                ...campaign,
+                ListDetails: campaign.ListDetails.map((p, i) => (selectedResources.indexOf(p.ID) >= 0 ? {
+                    ...p,
+                    Inventory: updateInventory
+                } : p))
+            },
+            IsOpenSaveToolbar: true
+
+        }))
+        setIsOpenUpdateInventoryModal(false);
+    }
     const handleCancelProduct = () => {
         setIsOpenProductPicker(false);
     }
@@ -64,7 +189,8 @@ const CreateUpdateCampaign = () => {
                         return pro.title;
                     }),
                     ListDetails: [...arrPro, ...arrAddedPro]
-                }
+                },
+                IsOpenSaveToolbar: true
             });
         setIsOpenProductPicker(false);
     }
@@ -80,15 +206,23 @@ const CreateUpdateCampaign = () => {
     const bulkUpdateInventory = [
         {
             content: 'Edit Inventory',
-            onAction: () => console.log('Todo: implement bulk edit'),
+            onAction: () => {
+                onClickUpdateInventory()
+
+            },
         },
         {
             content: 'Edit Discount',
-            onAction: () => console.log('Todo: implement bulk edit'),
+            onAction: () => {
+                onClickUpdateDiscount()
+            },
         },
         {
             content: 'Delete',
-            onAction: () => console.log('Todo: implement bulk edit'),
+            onAction: () => {
+                
+                onClickDeleteProduct();
+            },
         },
     ];
 
@@ -102,10 +236,10 @@ const CreateUpdateCampaign = () => {
                     position={index}
                 >
                     <IndexTable.Cell>{ProductTitle}</IndexTable.Cell>
-                    <IndexTable.Cell>{ProductPrice}</IndexTable.Cell>
+                    <IndexTable.Cell>{makeMoney(ProductPrice,'0')}</IndexTable.Cell>
                     <IndexTable.Cell>
                         <TextField
-                            value={Percentage}
+                            value={Percentage.toString()}
                             onChange={(e) => {
                                 dispatch(setCreateUpdateCampaign({
                                     ...campaignState,
@@ -116,15 +250,16 @@ const CreateUpdateCampaign = () => {
                                             Percentage: e
                                         } : p))
                                     },
+                                    IsOpenSaveToolbar: true
                                 }))
                             }}
                             type="text"
                         />
                     </IndexTable.Cell>
-                    <IndexTable.Cell>{PriceDiscount}</IndexTable.Cell>
+                    <IndexTable.Cell>{makeMoney(ProductPrice - (ProductPrice * Percentage) / 100)}</IndexTable.Cell>
                     <IndexTable.Cell>
                         <TextField
-                            value={Inventory}
+                            value={Inventory.toString()}
                             onChange={(e) => {
                                 dispatch(setCreateUpdateCampaign({
                                     ...campaignState,
@@ -135,6 +270,7 @@ const CreateUpdateCampaign = () => {
                                             Inventory: e
                                         } : p))
                                     },
+                                    IsOpenSaveToolbar: true
                                 }))
                             }}
                             type="text"
@@ -143,7 +279,7 @@ const CreateUpdateCampaign = () => {
                 </IndexTable.Row>
             ),
         );
-    
+
     return (
 
         <div className="campaign-form">
@@ -151,10 +287,10 @@ const CreateUpdateCampaign = () => {
                 message="Unsaved changes"
                 saveAction={{
                     content: "Save",
-                    onAction: () => { 
+                    onAction: () => {
                         //valid number row;
                         var isSubmit = true;
-                        
+
                         if (campaign.Title.toString() == '' || campaign.Title.toString() === null) {
                             dispatch(setCreateUpdateCampaign({
                                 ...campaignState,
@@ -162,23 +298,22 @@ const CreateUpdateCampaign = () => {
                             }))
                             return false;
                         }
-                        if (campaign.StartTime.toString() == '' || campaign.StartTime.toString() === null ||campaign.StartTimeEdit.toString() == '' || campaign.StartTimeEdit.toString() === null) {
+                        if (campaign.StartTime.toString() == '' || campaign.StartTime.toString() === null || campaign.StartTimeEdit.toString() == '' || campaign.StartTimeEdit.toString() === null) {
                             dispatch(setCreateUpdateCampaign({
                                 ...campaignState,
                                 StartTimeValidation: moreAppConfig.StartTimeValidationText
                             }))
                             return false;
                         }
-                        
-                        if (campaign.EndTime.toString() == '' || campaign.EndTime.toString() === null ||campaign.EndTimeEdit.toString() == '' || campaign.EndTimeEdit.toString() === null) {
+
+                        if (campaign.EndTime.toString() == '' || campaign.EndTime.toString() === null || campaign.EndTimeEdit.toString() == '' || campaign.EndTimeEdit.toString() === null) {
                             dispatch(setCreateUpdateCampaign({
                                 ...campaignState,
                                 EndTimeValidation: moreAppConfig.EndTimeValidationText
                             }))
                             return false;
                         }
-                        if ((campaign.StartTime.toString() != '' && campaign.EndTime.toString() != '')) 
-                        {
+                        if ((campaign.StartTime.toString() != '' && campaign.EndTime.toString() != '')) {
                             var startTime = Date.parse(campaign.StartTime);
                             var endTime = Date.parse(campaign.EndTime);
                             if (endTime <= startTime) {
@@ -189,8 +324,7 @@ const CreateUpdateCampaign = () => {
                                 return false;
                             }
                         }
-                        if ((campaign.StartTimeEdit.toString() != '' && campaign.EndTimeEdit.toString() != '')) 
-                        {
+                        if ((campaign.StartTimeEdit.toString() != '' && campaign.EndTimeEdit.toString() != '')) {
                             var startTime = Date.parse(campaign.StartTimeEdit);
                             var endTime = Date.parse(campaign.EndTimeEdit);
                             if (endTime <= startTime) {
@@ -388,7 +522,110 @@ const CreateUpdateCampaign = () => {
                     IsOpenSaveResult: null
                 }))
             }} /> : null}
+            <Modal
+                open={IsOpenDeleteModal}
+                onClose={() => { setIsOpenDeleteModal(false) }}
+                title="Delete Product"
+                primaryAction={{
+                    content: 'Ok',
+                    onAction: () => {
+                        
+                        handleDeleteProduct();
+                    },
+                }}
+                secondaryActions={[
+                    {
+                        content: 'Cancel',
+                        onAction: () => { setIsOpenDeleteModal(false) },
+                    },
+                ]}
+            >
+                <Modal.Section>
+                    <TextContainer>
+                        <p>
+                            Do you want to delete these selected products?
+                        </p>
+                    </TextContainer>
+                </Modal.Section>
+            </Modal>
+            <Modal
+                open={IsOpenUpdateDiscountModal}
+                onClose={() => { setIsOpenUpdateDiscountModal(false) }}
+                title="Update Discount Product"
+                primaryAction={{
+                    content: 'Ok',
+                    onAction: () => {
+                        
+                        handleUpdateDiscount();
+                    },
+                }}
+                secondaryActions={[
+                    {
+                        content: 'Cancel',
+                        onAction: () => { setIsOpenUpdateDiscountModal(false) },
+                    },
+                ]}
+            >
+                <Modal.Section>
+                    <TextContainer>
+                        <p>
+                            Discount
+                            <TextField
+                                value={updateDiscount}
+                                onChange={(e) => {
+                                    handleChangeTextDiscount(e);
+                                    if (e == null || e == undefined || e == '') {
+                                        dispatch(setCreateUpdateCampaign({
+                                            ...campaignState,
+                                            DiscountValidation: moreAppConfig.DiscountValidationText
+                                        }))
+                                        return false;
+                                    }
+                                }}
+                                error={campaignState.DiscountValidation}
+                                type="text"
+                            />
+                        </p>
+                    </TextContainer>
+                </Modal.Section>
+            </Modal>
+            <Modal
+                open={IsOpenUpdateInventoryModal}
+                onClose={() => { setIsOpenUpdateInventoryModal(false) }}
+                title="Update Inventory Product"
+                primaryAction={{
+                    content: 'Ok',
+                    onAction: () => {
+                        
+                        handleUpdateInventory();
+                    },
+                }}
+                secondaryActions={[
+                    {
+                        content: 'Cancel',
+                        onAction: () => { setIsOpenUpdateInventoryModal(false) },
+                    },
+                ]}
+            >
+                <Modal.Section>
+                    <TextContainer>
+                        <p>
+                            Inventory
+                            <TextField
+                                value={updateInventory}
+                                onChange={(e) => {
+                                    
+                                    handleChangeTextInventory(e);
+                                }}
+                                error={campaignState.InventoryValidation}
+                                type="text"
+                            />
+                        </p>
+                    </TextContainer>
+                </Modal.Section>
+            </Modal>
         </div>
+
     )
 }
 
