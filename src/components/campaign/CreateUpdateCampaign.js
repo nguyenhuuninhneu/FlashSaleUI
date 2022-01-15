@@ -1,5 +1,5 @@
 import { Provider, ResourcePicker } from '@shopify/app-bridge-react';
-import { Button, ButtonGroup, Card, ContextualSaveBar, Heading, IndexTable, TextField, Toast, useIndexResourceState, Modal, TextContainer } from '@shopify/polaris';
+import { Button, ButtonGroup, Card, ContextualSaveBar, Heading, IndexTable, TextField, Toast, useIndexResourceState, Modal, TextContainer, List } from '@shopify/polaris';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCreateUpdateCampaign } from '../../state/modules/campaign/actions';
@@ -80,16 +80,23 @@ const CreateUpdateCampaign = (props) => {
 
 
     const [IsOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+    const [listItemDeleteProduct, setListDeleteProduct] = useState(null);
     const [IsOpenUpdateDiscountModal, setIsOpenUpdateDiscountModal] = useState(false);
     const [IsOpenUpdateInventoryModal, setIsOpenUpdateInventoryModal] = useState(false);
     const onClickDeleteProduct = () => {
+        var arrPro = campaign.ListDetails.filter(p => selectedResources.indexOf(p.ID) > -1);
+        setListDeleteProduct(arrPro.map((p,i)=> {
+            return (
+                <List.Item>{p.ProductTitle}</List.Item>
+            )
+        }));
         setIsOpenDeleteModal(true);
     }
 
     const handleDeleteProduct = () => {
 
-
         var arrPro = campaign.ListDetails.filter(p => selectedResources.indexOf(p.ID) == -1);
+
         dispatch(setCreateUpdateCampaign(
             {
                 ...campaignState,
@@ -101,6 +108,9 @@ const CreateUpdateCampaign = (props) => {
                 IsOpenSaveToolbar: true
             }));
         setIsOpenDeleteModal(false);
+        allResourcesSelected = false;
+        handleSelectionChange();
+        debugger;
     }
     const onClickUpdateDiscount = () => {
         setUpdateDiscount('0');
@@ -200,7 +210,7 @@ const CreateUpdateCampaign = (props) => {
         plural: 'campaigns',
     };
 
-    const { selectedResources, allResourcesSelected, handleSelectionChange } =
+    var { selectedResources, allResourcesSelected, handleSelectionChange } =
         useIndexResourceState(campaignDetails);
 
     const bulkUpdateInventory = [
@@ -232,7 +242,7 @@ const CreateUpdateCampaign = (props) => {
                 <IndexTable.Row
                     id={id}
                     key={id}
-                    selected={selectedResources.includes(ProductPrice)}
+                    selected={selectedResources.includes(id)}
                     position={index}
                 >
                     <IndexTable.Cell>{ProductTitle}</IndexTable.Cell>
@@ -261,26 +271,26 @@ const CreateUpdateCampaign = (props) => {
                     </IndexTable.Cell>
                     <IndexTable.Cell>{makeMoney(ProductPrice - (ProductPrice * Percentage) / 100)}</IndexTable.Cell>
                     <IndexTable.Cell>
-                    <div class="max-index">
-                    <TextField
-                            value={Inventory.toString()}
-                            onChange={(e) => {
-                                dispatch(setCreateUpdateCampaign({
-                                    ...campaignState,
-                                    campaign: {
-                                        ...campaign,
-                                        ListDetails: campaign.ListDetails.map((p, i) => (i == index ? {
-                                            ...p,
-                                            Inventory: e
-                                        } : p))
-                                    },
-                                    IsOpenSaveToolbar: true
-                                }))
-                            }}
-                            type="text"
-                        />
-                    </div>
-                        
+                        <div class="max-index">
+                            <TextField
+                                value={Inventory.toString()}
+                                onChange={(e) => {
+                                    dispatch(setCreateUpdateCampaign({
+                                        ...campaignState,
+                                        campaign: {
+                                            ...campaign,
+                                            ListDetails: campaign.ListDetails.map((p, i) => (i == index ? {
+                                                ...p,
+                                                Inventory: e
+                                            } : p))
+                                        },
+                                        IsOpenSaveToolbar: true
+                                    }))
+                                }}
+                                type="text"
+                            />
+                        </div>
+
                     </IndexTable.Cell>
                 </IndexTable.Row>
             ),
@@ -551,6 +561,10 @@ const CreateUpdateCampaign = (props) => {
                         <p className='valid'>
                             Do you want to delete these selected products?
                         </p>
+                        <List type='bullet'>
+                            {listItemDeleteProduct}
+                        </List>
+                        
                     </TextContainer>
                 </Modal.Section>
             </Modal>
@@ -592,6 +606,7 @@ const CreateUpdateCampaign = (props) => {
                             />
                         </p>
                         <p className='valid'>This change will apply to all selected products</p>
+
                     </TextContainer>
                 </Modal.Section>
             </Modal>

@@ -3,170 +3,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderSlick from "react-slick";
 import config from '../../config/config';
+import utils from '../../config/utils';
 
 function Slider(props) {
-    var listProduct = [
-        {
-            Id: 1,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 2,
-            Percent: 20,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 2,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 129,
-            Percent: 80,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 3,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 300,
-            Percent: 90,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 4,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 0,
-            Percent: 0,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 5,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 2,
-            Percent: 20,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 6,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 129,
-            Percent: 80,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 7,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 300,
-            Percent: 90,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 8,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 0,
-            Percent: 0,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 9,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 2,
-            Percent: 20,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 10,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 129,
-            Percent: 80,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 11,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 300,
-            Percent: 90,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 12,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 0,
-            Percent: 0,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 13,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 2,
-            Percent: 20,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 14,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 129,
-            Percent: 80,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 15,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 300,
-            Percent: 90,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 16,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 0,
-            Percent: 0,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 17,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 2,
-            Percent: 20,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 18,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 129,
-            Percent: 80,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 19,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 300,
-            Percent: 90,
-            Discount: 10,
-            Price: 32.99
-        },
-        {
-            Id: 20,
-            Image: config.rootLink + '/Images/ProductImage.png',
-            Mount: 0,
-            Percent: 0,
-            Discount: 10,
-            Price: 32.99
-        },
-    ]
     const settings = {
         dots: false,
         infinite: false,
@@ -176,33 +15,34 @@ function Slider(props) {
         slidesToScroll: 4
     };
 
-    const LoadProduct = listProduct.map((product) => {
+    const LoadProduct = props.ListProduct.map((product) => {
+        var percentSold = product.Inventory == 0 ? 0 : (product.SoldQuantity / product.Inventory) * 100;
         return (
             <>
                 <div className="orichi-product-item-slider" key={product.Id}>
                     <div className="wImage">
-                        <a href="#" title="" className="image cover">
-                            <img src={product.Image} />
+                        <a href={props.CurrentWebProduct + product.ProductHandle} title={product.ProductTitle} target={'_balnk'} className="image cover">
+                            <img src={product.ProductImage} />
                         </a>
                     </div>
                     <div className="orichi-price-wrapper">
-                        <div className="orichi-price" style={{ color: props.ProductColor }}>{'$' + product.Price}
-                            <div className="orichi-discount-price" style={{ color: props.ProductColor, border: '1px solid ' + props.ProductColor }}>-{product.Discount}%</div>
+                        <div className="orichi-price" style={{ color: props.ProductColor }}>{utils.ShopifyMoney(product.ProductPrice,props.Currency)}
+                            <div className="orichi-discount-price" style={{ color: props.ProductColor, border: '1px solid ' + props.ProductColor }}>-{product.Percentage}%</div>
                         </div>
                     </div>
                     {
                         props.ProductShowProgressBarStatus === true ? <div className="orichi-progress-bar">
                             <div className="orichi-flash-sale-progress-bar">
                                 <div
-                                    className="orichi-flash-sale-progress-bar__complement-wrapper" style={{ background: props.ProductColor, width: product.Percent + '%' }}>
+                                    className="orichi-flash-sale-progress-bar__complement-wrapper" style={{ background: props.ProductColor, width: percentSold + '%' }}>
                                 </div>
                                 <div className="orichi-flash-sale-progress-bar__text">
                                     {
-                                        product.Percent === 0 ? props.TextJustSale : product.Percent < 90 ? props.TextSold + ' ' + product.Mount : props.TextAlmostSoldOut
+                                        percentSold === 0 ? props.TextJustSale : percentSold < 90 ? props.TextSold + ' ' + product.SoldQuantity : props.TextAlmostSoldOut
                                     }
                                 </div>
                                 {
-                                    product.Percent >= 80 ? <> <div className="orichi-flash-sale-progress-bar__fire">
+                                    percentSold >= 80 ? <> <div className="orichi-flash-sale-progress-bar__fire">
                                         <img src={config.rootLink + props.ProductIcon} />
                                     </div></> : ''
                                 }
