@@ -15,7 +15,6 @@ function Setting() {
     const settingState = useSelector((state) => state.setting.SettingInfo);
     const setting = settingState.setting;
     function convertDate(date) {
-        debugger;
         var getDate = new Date();
         if (date !== null && date.toString().includes('/Date')) {
             var numberDate = Number(date.toString().replace('/Date(', '').replace(')/', ''));
@@ -40,7 +39,6 @@ function Setting() {
         return strDate;
     }
     if (setting != null && setting.PageCreatedDate !== null && setting.PageCreatedDateStr !== null&& setting.PageCreatedDateStr != undefined&& setting.PageCreatedDateStr != "") {
-        debugger;
         setting.PageCreatedDateStr = convertDate(setting.PageCreatedDate);
     }
     useEffect(() => {
@@ -83,7 +81,6 @@ function Setting() {
     }, []);
 
     const AddTheme = (id) => {
-        debugger;
         if (id !== null && id !== undefined && id !== '') {
             dispatch(setSetting({
                 ...settingState,
@@ -106,12 +103,14 @@ function Setting() {
         }))
         dispatch(removeSection(id));
     }
-    debugger;
     var optionsSection = [];
     optionsSection.push({label: 'Select section', value: ''})
-    settingState.ListThemes.forEach((theme,index)=>{
-        optionsSection.push({label: theme.Name, value: theme.Id.toString()})
-    })
+    if (settingState != null && settingState != undefined && settingState.ListThemes != null && settingState.ListThemes != undefined) {
+        settingState.ListThemes.forEach((theme,index)=>{
+            optionsSection.push({label: theme.Name, value: theme.Id.toString()})
+        })
+    } 
+    
     return (
         <>
             {settingState.IsOpenSaveToolbar ? <ContextualSaveBar
@@ -185,7 +184,6 @@ function Setting() {
                                                 label="Timezone"
                                                 options={timezones}
                                                 onChange={(e) => {
-                                                    debugger;
                                                     setSelectedTimeZone(e)
                                                     dispatch(setSetting({
                                                         ...settingState,
@@ -232,7 +230,6 @@ function Setting() {
                                             <Select
                                                 options={optionsSection}
                                                 onChange={(value) => {
-                                                    debugger;
                                                     setSelectedSection(value);
                                                     if (value !== null && value !== undefined && value !== '') {
                                                         dispatch(setSetting({

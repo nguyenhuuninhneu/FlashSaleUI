@@ -26,7 +26,6 @@ function Grid(props) {
         setCurrentPage(currentPage => currentPage + 1);
         setLimitItem(limitItem => limitItem + parseInt(props.ProductNumberInRow));
         setLoading(false);
-        debugger;
         if (currentPage === totalPage - 1) {
             setHideButtonViewMore(true);
             setLoading(false);

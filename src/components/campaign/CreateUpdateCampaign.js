@@ -110,7 +110,6 @@ const CreateUpdateCampaign = (props) => {
         setIsOpenDeleteModal(false);
         allResourcesSelected = false;
         handleSelectionChange();
-        debugger;
     }
     const onClickUpdateDiscount = () => {
         setUpdateDiscount('0');

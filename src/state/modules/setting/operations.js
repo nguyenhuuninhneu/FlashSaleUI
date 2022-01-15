@@ -59,7 +59,6 @@ export const getThemes = () => {
       }
     })
       .then(function (response) {
-        debugger;
         const result = response?.data?.themes;
         dispatch(actions.setSetting({
           ...getState().setting.SettingInfo,
@@ -80,7 +79,6 @@ export const getThemes = () => {
 
 export const createSection = (id,name, createdAt) => {
   return (dispatch, getState) => {
-    debugger
     var params = {
       shop: config.shop,
       id: id,

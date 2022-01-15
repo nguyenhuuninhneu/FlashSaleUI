@@ -7,10 +7,10 @@ import { saveDesign, fetchDesign } from '../../state/modules/design/operations';
 import config from '../../config/config';
 import Grid from './Grid';
 import Slider from './Slider';
-import Uploady, { useUploady, useItemFinishListener, useBatchFinalizeListener, useItemStartListener } from "@rpldy/uploady";
-import Loading from '../plugins/Loading';
+import Uploady from "@rpldy/uploady";
 import UploadyCustom from '../plugins/UploadyCustom';
 import moreAppConfig from '../../config/moreAppConfig';
+import Countdown from "react-countdown-now";
 
 
 const Design = () => {
@@ -18,9 +18,9 @@ const Design = () => {
     const appState = useSelector((state) => state);
     const designState = useSelector((state) => state.design.DesignInfo);
     const design = designState.design;
-    const ListProduct = appState != null && appState.campaign != null && appState.campaign.ListCampaign != null  && appState.campaign.ListCampaign.campaigns.length > 0 ? appState.campaign.ListCampaign.campaigns[0].ListDetails : [];
-    const Currency = appState != null && appState.app != null && appState.app.Shop != null  ? appState.app.Shop.Currency :'';
-    const Domain = appState != null && appState.app != null && appState.app.Shop != null  ? appState.app.Shop.Domain :'';
+    const ListProduct = appState != null && appState.campaign != null && appState.campaign.ListCampaign != null && appState.campaign.ListCampaign.campaigns.length > 0 ? appState.campaign.ListCampaign.campaigns[0].ListDetails : [];
+    const Currency = appState != null && appState.app != null && appState.app.Shop != null ? appState.app.Shop.Currency : '';
+    const Domain = appState != null && appState.app != null && appState.app.Shop != null ? appState.app.Shop.Domain : '';
     useEffect(() => {
         dispatch(setDesign({
             ...designState,
@@ -66,41 +66,6 @@ const Design = () => {
             IsReloadGridData: false
         })
     }
-    const [countDownTimer, setCountDown] = useState({});
-
-    function orichiFormatTime(number) {
-        if (number < 10) return "0" + number;
-        return number;
-    }
-    const CountDown = () => {
-        const second = 1000,
-            minute = second * 60,
-            hour = minute * 60,
-            day = hour * 24;
-        var endDate = endCampaign;
-        const dateCountDown = new Date(endDate).getTime(),
-            x = setInterval(function () {
-                const now = new Date().getTime();
-                var distance = dateCountDown - now;
-                setCountDown(prevState => ({
-                    ...prevState,
-                    hours: orichiFormatTime(Math.abs(Math.floor((distance % (day)) / (hour)))),
-                    minutes: orichiFormatTime(Math.abs(Math.floor((distance % (hour)) / (minute)))),
-                    seconds: orichiFormatTime(Math.abs(Math.floor((distance % (minute)) / second)))
-                }));
-                if (distance < 0) {
-                    dispatch(setDesign({
-                        ...designState,
-                        design: {
-                            ...design,
-                            TimerCountDownStatus: false
-                        },
-                    }))
-                    clearInterval(x);
-                }
-            }, 0)
-    }
-    CountDown();
 
     return (
         <>
@@ -202,9 +167,15 @@ const Design = () => {
                                     {design.TimerCountDownStatus ? <>
                                         <div className={'orichi-countdown'}>
                                             <ul>
-                                                <li><span style={{ background: design.TimerCountDownBackground, color: design.TimerCountDownColor }}>{countDownTimer != null || countDownTimer != undefined ? countDownTimer.hours : '00'}</span></li>
-                                                <li><span style={{ background: design.TimerCountDownBackground, color: design.TimerCountDownColor }}>{countDownTimer != null || countDownTimer != undefined ? countDownTimer.minutes : '00'}</span></li>
-                                                <li><span style={{ background: design.TimerCountDownBackground, color: design.TimerCountDownColor }}>{countDownTimer != null || countDownTimer != undefined ? countDownTimer.seconds : '00'}</span></li>
+                                                <Countdown
+                                                    date={endCampaign}
+                                                    intervalDelay={0}
+                                                    precision={3}
+                                                    renderer={props => <div><li><span style={{ background: design.TimerCountDownBackground, color: design.TimerCountDownColor }}>{props.hours > 10 ? props.hours : '0'+ props.hours}</span></li>
+                                                        <li><span style={{ background: design.TimerCountDownBackground, color: design.TimerCountDownColor }}>{props.minutes > 10 ? props.minutes : '0'+ props.minutes}</span></li>
+                                                        <li><span style={{ background: design.TimerCountDownBackground, color: design.TimerCountDownColor }}>{props.seconds > 10 ? props.seconds : '0'+ props.seconds}</span></li></div>}
+                                                />
+
                                             </ul>
                                         </div>
                                     </> : ''}

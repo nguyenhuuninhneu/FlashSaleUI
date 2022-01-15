@@ -8,7 +8,7 @@ import NoCampaign from './NoCampaign';
 import config from '../../config/config';
 import { editCampaign } from '../../state/modules/campaign/operations';
 
-const ListCampaign = () => {
+const ListCampaign = (props) => {
     const [IsOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [Campaign, setCampaign] = useState(null); 
     const [Alert, setAlert] = useState(null);
@@ -29,6 +29,7 @@ const ListCampaign = () => {
                             ...campaignState,
                             campaigns: []
                         }));
+                        props.handleResetTab();
                         setAlert(<Toast content={'The campaign: ' + Campaign.Title + ' deleted successfully'} duration={1000} />);
                     }
                     else {
