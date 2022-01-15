@@ -38,7 +38,7 @@ const CreateUpdateCampaign = (props) => {
     const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     }
-    
+
     const makeMoney = (x, expect) => {
         const result = numberWithCommas(x);
         const pass = result === expect;
@@ -87,7 +87,7 @@ const CreateUpdateCampaign = (props) => {
     }
 
     const handleDeleteProduct = () => {
-        
+
 
         var arrPro = campaign.ListDetails.filter(p => selectedResources.indexOf(p.ID) == -1);
         dispatch(setCreateUpdateCampaign(
@@ -115,7 +115,7 @@ const CreateUpdateCampaign = (props) => {
             }))
             return false;
         }
-        
+
         dispatch(setCreateUpdateCampaign({
             ...campaignState,
             campaign: {
@@ -143,7 +143,7 @@ const CreateUpdateCampaign = (props) => {
             return false;
         }
 
-        
+
         dispatch(setCreateUpdateCampaign({
             ...campaignState,
             campaign: {
@@ -220,7 +220,7 @@ const CreateUpdateCampaign = (props) => {
         {
             content: 'Delete',
             onAction: () => {
-                
+
                 onClickDeleteProduct();
             },
         },
@@ -236,29 +236,33 @@ const CreateUpdateCampaign = (props) => {
                     position={index}
                 >
                     <IndexTable.Cell>{ProductTitle}</IndexTable.Cell>
-                    <IndexTable.Cell>{makeMoney(ProductPrice,'0')}</IndexTable.Cell>
+                    <IndexTable.Cell>{makeMoney(ProductPrice, '0')}</IndexTable.Cell>
                     <IndexTable.Cell>
-                        <TextField
-                            value={Percentage.toString()}
-                            onChange={(e) => {
-                                dispatch(setCreateUpdateCampaign({
-                                    ...campaignState,
-                                    campaign: {
-                                        ...campaign,
-                                        ListDetails: campaign.ListDetails.map((p, i) => (i == index ? {
-                                            ...p,
-                                            Percentage: e
-                                        } : p))
-                                    },
-                                    IsOpenSaveToolbar: true
-                                }))
-                            }}
-                            type="text"
-                        />
+                        <div class="max-index">
+                            <TextField
+                                value={Percentage.toString()}
+                                onChange={(e) => {
+                                    dispatch(setCreateUpdateCampaign({
+                                        ...campaignState,
+                                        campaign: {
+                                            ...campaign,
+                                            ListDetails: campaign.ListDetails.map((p, i) => (i == index ? {
+                                                ...p,
+                                                Percentage: e
+                                            } : p))
+                                        },
+                                        IsOpenSaveToolbar: true
+                                    }))
+                                }}
+                                type="text"
+                            />
+                        </div>
+
                     </IndexTable.Cell>
                     <IndexTable.Cell>{makeMoney(ProductPrice - (ProductPrice * Percentage) / 100)}</IndexTable.Cell>
                     <IndexTable.Cell>
-                        <TextField
+                    <div class="max-index">
+                    <TextField
                             value={Inventory.toString()}
                             onChange={(e) => {
                                 dispatch(setCreateUpdateCampaign({
@@ -275,6 +279,8 @@ const CreateUpdateCampaign = (props) => {
                             }}
                             type="text"
                         />
+                    </div>
+                        
                     </IndexTable.Cell>
                 </IndexTable.Row>
             ),
@@ -529,7 +535,7 @@ const CreateUpdateCampaign = (props) => {
                 primaryAction={{
                     content: 'Ok',
                     onAction: () => {
-                        
+
                         handleDeleteProduct();
                     },
                 }}
@@ -542,7 +548,7 @@ const CreateUpdateCampaign = (props) => {
             >
                 <Modal.Section>
                     <TextContainer>
-                        <p>
+                        <p className='valid'>
                             Do you want to delete these selected products?
                         </p>
                     </TextContainer>
@@ -551,11 +557,11 @@ const CreateUpdateCampaign = (props) => {
             <Modal
                 open={IsOpenUpdateDiscountModal}
                 onClose={() => { setIsOpenUpdateDiscountModal(false) }}
-                title="Update Discount Product"
+                title="Update discount"
                 primaryAction={{
-                    content: 'Ok',
+                    content: 'Save',
                     onAction: () => {
-                        
+
                         handleUpdateDiscount();
                     },
                 }}
@@ -569,7 +575,6 @@ const CreateUpdateCampaign = (props) => {
                 <Modal.Section>
                     <TextContainer>
                         <p>
-                            Discount
                             <TextField
                                 value={updateDiscount}
                                 onChange={(e) => {
@@ -586,17 +591,18 @@ const CreateUpdateCampaign = (props) => {
                                 type="text"
                             />
                         </p>
+                        <p className='valid'>This change will apply to all selected products</p>
                     </TextContainer>
                 </Modal.Section>
             </Modal>
             <Modal
                 open={IsOpenUpdateInventoryModal}
                 onClose={() => { setIsOpenUpdateInventoryModal(false) }}
-                title="Update Inventory Product"
+                title="Update inventory"
                 primaryAction={{
-                    content: 'Ok',
+                    content: 'Save',
                     onAction: () => {
-                        
+
                         handleUpdateInventory();
                     },
                 }}
@@ -610,17 +616,17 @@ const CreateUpdateCampaign = (props) => {
                 <Modal.Section>
                     <TextContainer>
                         <p>
-                            Inventory
                             <TextField
                                 value={updateInventory}
                                 onChange={(e) => {
-                                    
+
                                     handleChangeTextInventory(e);
                                 }}
                                 error={campaignState.InventoryValidation}
                                 type="text"
                             />
                         </p>
+                        <p className='valid'>This change will apply to all selected products</p>
                     </TextContainer>
                 </Modal.Section>
             </Modal>
