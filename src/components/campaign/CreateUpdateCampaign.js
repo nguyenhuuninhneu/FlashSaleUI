@@ -2,7 +2,7 @@ import { Provider, ResourcePicker } from '@shopify/app-bridge-react';
 import { Button, ButtonGroup, Card, ContextualSaveBar, Heading, IndexTable, TextField, Toast, useIndexResourceState, Modal, TextContainer, List } from '@shopify/polaris';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCreateUpdateCampaign } from '../../state/modules/campaign/actions';
+import { setCreateUpdateCampaign, setListCampaign } from '../../state/modules/campaign/actions';
 import config from '../../config/config';
 import { saveCampaign } from '../../state/modules/campaign/operations';
 import moreAppConfig from '../../config/moreAppConfig';
@@ -11,6 +11,7 @@ const CreateUpdateCampaign = (props) => {
     const dispatch = useDispatch();
     const [IsOpenProductPicker, setIsOpenProductPicker] = useState(false);
     const campaignState = useSelector((state) => state.campaign.CreateUpdateCampaign);
+    const campaignStateNew = useSelector((state) => state.campaign.ListCampaign.campaigns);
     const campaign = campaignState.campaign;
     const campaignDetails = campaign.ListDetails.filter(p => campaignState.TextSearchProduct == null || campaignState.TextSearchProduct == '' || p.ProductTitle.indexOf(campaignState.TextSearchProduct) >= 0)
         .map(obj => ({ ...obj, id: obj.ID }));
@@ -85,7 +86,7 @@ const CreateUpdateCampaign = (props) => {
     const [IsOpenUpdateInventoryModal, setIsOpenUpdateInventoryModal] = useState(false);
     const onClickDeleteProduct = () => {
         var arrPro = campaign.ListDetails.filter(p => selectedResources.indexOf(p.ID) > -1);
-        setListDeleteProduct(arrPro.map((p,i)=> {
+        setListDeleteProduct(arrPro.map((p, i) => {
             return (
                 <List.Item>{p.ProductTitle}</List.Item>
             )
@@ -350,7 +351,12 @@ const CreateUpdateCampaign = (props) => {
                                 return false;
                             }
                         }
-                        dispatch(saveCampaign())
+                        dispatch(saveCampaign());
+                        dispatch(setListCampaign(
+                            {
+                                ...campaignStateNew,
+                                campaigns: campaignState.campaign.ListDetails
+                            }));
                     },
                     loading: campaignState.IsSaveLoading,
                 }}
@@ -563,7 +569,7 @@ const CreateUpdateCampaign = (props) => {
                         <List type='bullet'>
                             {listItemDeleteProduct}
                         </List>
-                        
+
                     </TextContainer>
                 </Modal.Section>
             </Modal>
