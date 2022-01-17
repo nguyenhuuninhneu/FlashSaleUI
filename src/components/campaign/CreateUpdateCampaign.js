@@ -2,7 +2,7 @@ import { Provider, ResourcePicker } from '@shopify/app-bridge-react';
 import { Button, ButtonGroup, Card, ContextualSaveBar, Heading, IndexTable, TextField, Toast, useIndexResourceState, Modal, TextContainer, List } from '@shopify/polaris';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCreateUpdateCampaign, setListCampaign } from '../../state/modules/campaign/actions';
+import { setCreateUpdateCampaign } from '../../state/modules/campaign/actions';
 import config from '../../config/config';
 import { saveCampaign } from '../../state/modules/campaign/operations';
 import moreAppConfig from '../../config/moreAppConfig';
@@ -352,11 +352,6 @@ const CreateUpdateCampaign = (props) => {
                             }
                         }
                         dispatch(saveCampaign());
-                        dispatch(setListCampaign(
-                            {
-                                ...campaignStateNew,
-                                campaigns: campaignState.campaign.ListDetails
-                            }));
                     },
                     loading: campaignState.IsSaveLoading,
                 }}

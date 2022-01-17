@@ -85,6 +85,11 @@ const reducer = (state = INITIAL_STATE, action) => {
     case types.SAVE_CAMPAIGNCOMPLETED:
       return {
         ...state,
+        ListCampaign: {
+          ...state.ListCampaign,
+          listLoading: false,
+          campaigns: action.payload.campaign
+        },
         CreateUpdateCampaign: {
           ...state.CreateUpdateCampaign,
           IsOpenSaveToolbar: !action.payload.IsSuccess,
