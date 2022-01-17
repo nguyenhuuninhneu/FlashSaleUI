@@ -9,6 +9,8 @@ import moreAppConfig from '../../config/moreAppConfig';
 import timezonesconfig from '../../config/timezone';
 import Loading from '../plugins/Loading';
 import LoadingSmall from '../plugins/LoadingSmall';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 
 function Setting() {
     const dispatch = useDispatch();
@@ -38,7 +40,7 @@ function Setting() {
         var strDate = month + '/' + day + '/' + getDate.getFullYear() + ', ' + hours + ':' + minutes;
         return strDate;
     }
-    if (setting != null && setting.PageCreatedDate !== null && setting.PageCreatedDateStr !== null&& setting.PageCreatedDateStr != undefined&& setting.PageCreatedDateStr != "") {
+    if (setting != null && setting.PageCreatedDate !== null && setting.PageCreatedDateStr !== null && setting.PageCreatedDateStr != undefined && setting.PageCreatedDateStr != "") {
         setting.PageCreatedDateStr = convertDate(setting.PageCreatedDate);
     }
     useEffect(() => {
@@ -63,10 +65,10 @@ function Setting() {
     const [timezones, setSelectedTimeZones] = useState(timezonesconfig);
     let tz1 = timezonesconfig.find(p => p.value == 'Default timezone');
     let tz = setting != null && setting.TimeZone !== null && setting.TimeZone !== undefined && setting.TimeZone !== '' && setting.TimeZoneStr !== null && setting.TimeZoneStr !== undefined && setting.TimeZoneStr !== '' ? timezonesconfig.find(p => p.time == setting.TimeZone && p.value == setting.TimeZoneStr) : tz1;
-    const [selectedTimeZone, setSelectedTimeZone] = useState(setting!= null && setting.TimeZone === null ? 'Default timezone' : tz.value);
+    const [selectedTimeZone, setSelectedTimeZone] = useState(setting != null && setting.TimeZone === null ? 'Default timezone' : tz.value);
 
     const [selectedSection, setSelectedSection] = useState('');
-    
+
     const [openOne, setOpenOne] = useState(true);
     const [openTwo, setOpenTWo] = useState(false);
     const [openThree, setOpenThree] = useState(false);
@@ -104,13 +106,13 @@ function Setting() {
         dispatch(removeSection(id));
     }
     var optionsSection = [];
-    optionsSection.push({label: 'Select section', value: ''})
+    optionsSection.push({ label: 'Select section', value: '' })
     if (settingState != null && settingState != undefined && settingState.ListThemes != null && settingState.ListThemes != undefined) {
-        settingState.ListThemes.forEach((theme,index)=>{
-            optionsSection.push({label: theme.Name, value: theme.Id.toString()})
+        settingState.ListThemes.forEach((theme, index) => {
+            optionsSection.push({ label: theme.Name, value: theme.Id.toString() })
         })
-    } 
-    
+    }
+
     return (
         <>
             {settingState.IsOpenSaveToolbar ? <ContextualSaveBar
@@ -395,16 +397,17 @@ function Setting() {
                                                                 />
                                                             </div>
                                                             <div className='dib ml-10 copy-board'>
-                                                                <Link onClick={() => {
+                                                                <CopyToClipboard text={setting.PageUrl}>
+                                                                    <Link onClick={() => {
+                                                                        dispatch(setSetting({
+                                                                            ...settingState,
+                                                                            IsOpenSaveResult: true,
+                                                                            MessageSaveResult: 'Page URL is copied to clipboard.'
+                                                                        }))
 
-                                                                    navigator.clipboard.writeText(setting.PageUrl);
-                                                                    dispatch(setSetting({
-                                                                        ...settingState,
-                                                                        IsOpenSaveResult: true,
-                                                                        MessageSaveResult: 'Page URL is copied to clipboard.'
-                                                                    }))
+                                                                    }}><FontAwesomeIcon icon={faClone} /></Link>
+                                                                </CopyToClipboard>
 
-                                                                }}><FontAwesomeIcon icon={faClone} /></Link>
                                                             </div>
                                                         </div>
                                                         <p>

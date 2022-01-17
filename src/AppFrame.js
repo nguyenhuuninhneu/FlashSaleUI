@@ -52,6 +52,7 @@ const tabNoDesign = [
 const AppFrame = () => {
   const dispatch = useDispatch();
   const appState = useSelector((state) => state.app);
+  const campaignState = useSelector((state) => state.campaign);
   useEffect(() => {
     dispatch(appOperations.fetchShop());
     dispatch(campaignOperations.fetchList());
@@ -59,29 +60,22 @@ const AppFrame = () => {
     dispatch(settingOperations.fetchSetting());
     dispatch(settingOperations.getThemes());
     
-   
   }, [dispatch]);
-  const handleResetTab = () => {
-    dispatch(setIsNoCampaign({
-      ...appState,
-      IsNoCampaign : true
-  }));
-  }
-  
+
   let content = <Loading></Loading>;
   switch (appState.selectedTab) {
     case 0:
-      content = appState.IsNoCampaign ? <NoCampaign></NoCampaign> : (appState.IsCreatingCampaign ? <CreateUpdateCampaign></CreateUpdateCampaign> : <ListCampaign handleResetTab={handleResetTab}></ListCampaign>);
+      content = appState.IsNoCampaign ? <NoCampaign></NoCampaign> : (appState.IsCreatingCampaign ? <CreateUpdateCampaign></CreateUpdateCampaign> : <ListCampaign></ListCampaign>);
       break;
     case 1:
-      if (!appState.IsNoCampaign) {
+      if (campaignState.ListCampaign != undefined && campaignState.ListCampaign.campaigns != undefined && campaignState.ListCampaign.campaigns.length > 0) {
         content = <Design></Design>;
       } else {
         content = <Setting></Setting>;
       }
       break;
     case 2:
-      if (!appState.IsNoCampaign) {
+      if (campaignState.ListCampaign != undefined && campaignState.ListCampaign.campaigns != undefined && campaignState.ListCampaign.campaigns.length > 0) {
         content = <Setting></Setting>;
       }
       break;
@@ -91,7 +85,7 @@ const AppFrame = () => {
   return (
     appState.IsLoading ? <Loading></Loading> :
       <Tabs
-        tabs={appState.IsNoCampaign ? tabNoDesign: tabAll}
+        tabs={campaignState.ListCampaign != undefined && campaignState.ListCampaign.campaigns != undefined && campaignState.ListCampaign.campaigns.length > 0 ? tabAll: tabNoDesign }
         selected={appState.selectedTab}
         onSelect={(selected) => dispatch(setSelectedTab(selected)) }
       >
