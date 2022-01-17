@@ -26,7 +26,7 @@ function Slider(props) {
                         </a>
                     </div>
                     <div className="orichi-price-wrapper">
-                        <div className="orichi-price" style={{ color: props.ProductColor }}>{utils.ShopifyMoney(product.ProductPrice,props.Currency)}
+                        <div className="orichi-price" style={{ color: props.ProductColor }}>{utils.ShopifyMoney(product.ProductPrice * 100,props.Currency)}
                             <div className="orichi-discount-price" style={{ color: props.ProductColor, border: '1px solid ' + props.ProductColor }}>-{product.Percentage}%</div>
                         </div>
                     </div>
