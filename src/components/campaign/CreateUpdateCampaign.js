@@ -6,6 +6,7 @@ import { setCreateUpdateCampaign } from '../../state/modules/campaign/actions';
 import config from '../../config/config';
 import { saveCampaign } from '../../state/modules/campaign/operations';
 import moreAppConfig from '../../config/moreAppConfig';
+import EllipsisText from "react-ellipsis-text";
 
 const CreateUpdateCampaign = (props) => {
     const dispatch = useDispatch();
@@ -252,7 +253,10 @@ const CreateUpdateCampaign = (props) => {
                     selected={selectedResources.includes(id)}
                     position={index}
                 >
-                    <IndexTable.Cell>{ProductTitle}</IndexTable.Cell>
+                    <IndexTable.Cell>
+                    <EllipsisText text={ProductTitle} length={"50"} />
+                        {/* <Dotdotdot clamp={1}>{ProductTitle}</Dotdotdot> */}
+                        </IndexTable.Cell>
                     <IndexTable.Cell>{makeMoney(ProductPrice, '0')}</IndexTable.Cell>
                     <IndexTable.Cell>
                         <div class="max-index">
