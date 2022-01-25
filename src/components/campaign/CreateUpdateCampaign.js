@@ -44,7 +44,8 @@ const CreateUpdateCampaign = (props) => {
         const result = numberWithCommas(x);
         const pass = result === expect;
         console.log(`${pass ? "✓" : "ERROR ====>"} ${x} => ${result}`);
-        return result;
+        var numverFixed = parseFloat(result).toFixed(2);
+        return numverFixed.toString();
     }
     const [updateDiscount, setUpdateDiscount] = useState("0");
     const handleChangeTextDiscount = (e) => {
@@ -209,7 +210,13 @@ const CreateUpdateCampaign = (props) => {
         singular: 'campaign',
         plural: 'campaigns',
     };
-
+    const validateNumber = (e) => {
+        if (isNaN(e)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     var { selectedResources, allResourcesSelected, handleSelectionChange } =
         useIndexResourceState(campaignDetails);
 
@@ -258,7 +265,7 @@ const CreateUpdateCampaign = (props) => {
                                             ...campaign,
                                             ListDetails: campaign.ListDetails.map((p, i) => (i == index ? {
                                                 ...p,
-                                                Percentage: e
+                                                Percentage: validateNumber(e.trim())? e.trim() : "0"
                                             } : p))
                                         },
                                         IsOpenSaveToolbar: true
@@ -281,7 +288,7 @@ const CreateUpdateCampaign = (props) => {
                                             ...campaign,
                                             ListDetails: campaign.ListDetails.map((p, i) => (i == index ? {
                                                 ...p,
-                                                Inventory: e
+                                                Inventory: validateNumber(e.trim())? e.trim() : "0"
                                             } : p))
                                         },
                                         IsOpenSaveToolbar: true
@@ -399,10 +406,10 @@ const CreateUpdateCampaign = (props) => {
                                         ...campaignState,
                                         campaign: {
                                             ...campaign,
-                                            Title: e
+                                            Title: e.trimStart()
                                         },
                                         IsOpenSaveToolbar: true,
-                                        TitleValidation: e == '' ? moreAppConfig.TilteValidationText : null
+                                        TitleValidation: e.trimStart() == '' ? moreAppConfig.TilteValidationText : null
                                     }))
                                 }}
                                 label={<>Campaign Title <span className={"risk-text"}>(*)</span></>}

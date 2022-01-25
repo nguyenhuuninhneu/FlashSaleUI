@@ -88,7 +88,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         ListCampaign: {
           ...state.ListCampaign,
           listLoading: false,
-          campaigns: action.payload.campaign
+          campaigns: [action.payload.campaign]
         },
         CreateUpdateCampaign: {
           ...state.CreateUpdateCampaign,

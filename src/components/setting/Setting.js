@@ -263,23 +263,29 @@ function Setting() {
                                                     <>
                                                         <Page>
                                                             <Card>
-                                                                <DataTable
-                                                                    columnContentTypes={[
-                                                                        'text',
-                                                                        'datetime',
-                                                                        ''
-                                                                    ]}
-                                                                    headings={[
-                                                                        'Theme',
-                                                                        'Created At',
-                                                                        ''
-                                                                    ]}
-                                                                    rows={settingState.setting.ListSections.map((element, index) => {
-                                                                        return [element.Name, element.CreatedAtStr, <><div className='remove-code'>
-                                                                            <Link onClick={() => { removeTheme(element.Id) }}> Remove Code</Link>
-                                                                        </div></>];
-                                                                    })}
-                                                                />
+                                                                {
+                                                                    settingState.setting.ListSections.length > 0 ? <>
+                                                                        <DataTable
+                                                                            columnContentTypes={[
+                                                                                'text',
+                                                                                'datetime',
+                                                                                ''
+                                                                            ]}
+                                                                            headings={[
+                                                                                'Theme',
+                                                                                'Created At',
+                                                                                ''
+                                                                            ]}
+                                                                            rows={settingState.setting.ListSections.map((element, index) => {
+                                                                                return [element.Name, element.CreatedAtStr, <><div className='remove-code'>
+                                                                                    <Link onClick={() => { removeTheme(element.Id) }}> Remove Code</Link>
+                                                                                </div></>];
+                                                                            })}
+                                                                        />
+                                                                    </>
+                                                                        : ''
+                                                                }
+
                                                             </Card>
                                                         </Page>
                                                     </>
